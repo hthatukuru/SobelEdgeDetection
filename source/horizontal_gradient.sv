@@ -11,7 +11,7 @@ module horizontal_gradient(
 	input reg [7:0] P7,
 	input reg [7:0] P8,
 	input reg start_calculations,
-	output signed [10:0] gx,
+	output signed [10:0] gx
 	
 );
 
