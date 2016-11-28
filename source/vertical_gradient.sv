@@ -18,6 +18,6 @@ module vertical_gradient(
 always_comb	
 	  if (start_calculation == 1)
 		begin	
-			        assign gy=((p0-p6)+((p1-p7)<<1)+(p2-p8));//sobel mask for gradient in vertical direction 
+			assign gy=((P0-P6)+((P1-P7)<<1)+(P2-P8));//sobel mask for gradient in vertical direction 
 		end
 endmodule
