@@ -15,9 +15,13 @@ module vertical_gradient(
 	
 );
 
-always_comb	
-	  if (start_calculation == 1)
-		begin	
-			assign gy=((P0-P6)+((P1-P7)<<1)+(P2-P8));//sobel mask for gradient in vertical direction 
-		end
+	wire signed [10:0] abs_gy
+	
+	if (start_calculation == 1)
+	begin	
+		assign abs_gy=((P0-P6)+((P1-P7)<<1)+(P2-P8));//sobel mask for gradient in vertical direction 
+	end
+	
+	assign gy = (abs_gy[10]? ~abs_gy+1 : abs_gy);
+
 endmodule
