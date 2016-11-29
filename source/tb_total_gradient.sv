@@ -10,8 +10,8 @@
 module tb_total_gradient
 ();
 
-  reg [7:0] tb_gx;
-	reg [7:0] tb_gy;
+	reg [10:0] tb_gx;
+	reg [10:0] tb_gy;
 	reg [7:0] tb_g;	
   
   integer testcase;
