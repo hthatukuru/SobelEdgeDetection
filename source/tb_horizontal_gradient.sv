@@ -7,3 +7,6 @@
 // Description: tb for horizontal_gradient.sv
 `timescale 1ns / 100ps
 
+module tb_horizontal_gradient ();
+  
+  
