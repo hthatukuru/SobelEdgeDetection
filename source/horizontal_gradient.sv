@@ -14,10 +14,19 @@ module horizontal_gradient(
 	output signed [10:0] gx
 	
 );
+	
+	wire signed [10:0] abs_gx;
 
-always_comb	
-	if (start_calculation == 1)
+		
+		if (start_calculation == 1)
 		begin	
-			gx=((P2-P0)+((P5-P3)<<1)+(P8-P6));//sobel mask for gradient in horiz. direction 
+			assign abs_gx=((P2-P0)+((P5-P3)<<1)+(P8-P6));//sobel mask for gradient in horiz. direction 
 		end
+
+	assign gx = (abs_gx[10]? ~abs_gx+1 : abs_gx);
+
+
 endmodule
+
+
+
