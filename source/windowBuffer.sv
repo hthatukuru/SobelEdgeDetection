@@ -5,14 +5,14 @@
 
 module windowBuffer
 (
-  input start_shift,
-  input start_read,
-  input shift_direc,
+  input reg start_shift,
+  input reg start_read,
+  input reg [1:0] shift_direc,
   input reg [7:0] data_r,
   input reg [7:0] windowBufferIn[0:8],
-  output read_done,
-  output shift_done,
-  output reg [7:0] windowBufferOut[0:8]
+  output reg read_done,
+  output reg shift_done,
+  output reg [7:0] windowBuffer[0:8]
 );
 
   reg [7:0] tempWindowBuffer[0:8];
@@ -38,6 +38,9 @@ module windowBuffer
         tempWindowBuffer [6] = 0;
         tempWindowBuffer [7] = 0;
         tempWindowBuffer [8] = 0;
+        
+        read_done = 0;
+        shift_done = 1;
       end
 
       else if(shift_direc == 2'b10) // shift right
@@ -51,6 +54,9 @@ module windowBuffer
         tempWindowBuffer [0] = 0;
         tempWindowBuffer [1] = 0;
         tempWindowBuffer [2] = 0;
+        
+        read_done = 0;
+        shift_done = 1;
       end
 
       else if(shift_direc == 2'b11) // shift down
@@ -64,8 +70,11 @@ module windowBuffer
         tempWindowBuffer [0] = 0;
         tempWindowBuffer [3] = 0;
         tempWindowBuffer [6] = 0;
+        
+        read_done = 0;
+        shift_done = 1;
       end
-
+      
     end
     
     else if(start_read)
@@ -83,10 +92,12 @@ module windowBuffer
       
       tempWindowBuffer[firstEmpty] = data_r;
       read_done = 1;
+      shift_done = 0;
       
     end
     
-    windowBufferOut = tempWindowBuffer;
+    windowBuffer = tempWindowBuffer;
+    // windowBufferIn = tempWindowBuffer;
   end
   
 endmodule
