@@ -1,4 +1,4 @@
- module total_gradient (  
+  module total_gradient (  
   input signed [10:0] gy,
   input signed [10:0] gx,
   output wire [7:0] g
