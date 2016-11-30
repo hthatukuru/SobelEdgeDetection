@@ -5,8 +5,6 @@
 
 module windowBuffer
 (
-  input clk,
-  input n_rst,
   input start_shift,
   input start_read,
   input shift_direc,
@@ -18,9 +16,14 @@ module windowBuffer
 );
 
   reg [7:0] tempWindowBuffer[0:8];
-
+  reg i = 0;
+  reg notFound = 1;
+  reg firstEmpty = 0;
+  
   always_comb
   begin
+    tempWindowBuffer = windowBufferIn;
+    
     if(start_shift)
     begin
 
@@ -57,16 +60,33 @@ module windowBuffer
         tempWindowBuffer [8] = tempWindowBuffer [7];
         tempWindowBuffer [1] = tempWindowBuffer [0];
         tempWindowBuffer [4] = tempWindowBuffer [3];
-        tempWindowBuffer [7] = tempWindowBuffer [6];
+        tempWindowBuffer [7] = tempWindowBuffer [6]
         tempWindowBuffer [0] = 0;
         tempWindowBuffer [3] = 0;
         tempWindowBuffer [6] = 0;
       end
 
     end
+    
     else if(start_read)
     begin
-
+      
+      while ( (i < 9) && notFound )
+      begin
+        if tempWindowBuffer[i] = 0
+          begin
+            firstEmpty = i;
+            notFound = 0;
+          end
+        i = i + 1;
+      end
+      
+      tempWindowBuffer[firstEmpty] = data_r;
+      read_done = 1;
+      
     end
+    
+    windowBufferOut = tempWindowBuffer;
   end
+  
 endmodule
