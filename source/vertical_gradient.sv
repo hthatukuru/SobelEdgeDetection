@@ -1,13 +1,12 @@
 module vertical_gradient(
-
-//input wire grad_start,	
+	
 	input reg [7:0] windowBuffer[0:8],
 	input reg start_calculations,
-	output signed [10:0] gy,
+	output signed [10:0] gy
 	
 );
 
-	wire signed [10:0] abs_gy;
+	reg signed [10:0] abs_gy;
 	wire [7:0] P0;
 	wire [7:0] P1;
 	wire [7:0] P2;
@@ -31,8 +30,8 @@ module vertical_gradient(
 	
 	always_comb
 	begin
-		if (start_calculation == 1)
-			assign abs_gy=((P0-P6)+((P1-P7)<<1)+(P2-P8)); //sobel mask for gradient in vertical direction 
+		if (start_calculations == 1)
+			abs_gy = ((P0-P6)+((P1-P7)<<1)+(P2-P8)); //sobel mask for gradient in vertical direction 
 	end
 	
 	assign gy = (abs_gy[10]? ~abs_gy+1 : abs_gy);
