@@ -33,7 +33,7 @@ module horizontal_gradient(
 		always_comb
 		begin
 
-			//if (start_calculations == 1)	
+			if (start_calculations == 1)	
 				abs_gx=((P2-P0)+((P5-P3)<<1)+(P8-P6));	//sobel mask for gradient in horiz. direction 
 
 		
