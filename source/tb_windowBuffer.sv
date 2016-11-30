@@ -49,7 +49,7 @@ module tb_windowBuffer ();
 
     tb_expected_read_done = 0;
     tb_expected_shift_done = 1;
-    tb_expected_windowBuffer = '{8'd53, 8'd54, 8'd55, 8'd56, 8'd57, 8'd58, 8'd0, 8'd0};
+    tb_expected_windowBuffer = '{8'd53, 8'd54, 8'd55, 8'd56, 8'd57, 8'd58, 8'd0, 8'd0, 8'd0};
     
     #10
     assert (tb_expected_shift_done == tb_shift_done && tb_expected_windowBuffer == tb_windowBuffer)
@@ -58,7 +58,26 @@ module tb_windowBuffer ();
       $error("Incorrect window buffer for test case %d!", testcase);
 	  #10
     
+	  
+    testcase = 1;
     tb_windowBufferIn = tb_windowBuffer;
+
+    tb_start_shift = 1;
+    tb_start_read = 0;
+    tb_shift_direc = 2'b01;
+    tb_data_r = 8'b0;
+
+    tb_expected_read_done = 0;
+    tb_expected_shift_done = 1;
+    tb_expected_windowBuffer = '{8'd56, 8'd57, 8'd58, 8'd0, 8'd0, 8'd0, 8'd0, 8'd0, 8'd0};
+    
+    #10
+    assert (tb_expected_shift_done == tb_shift_done && tb_expected_windowBuffer == tb_windowBuffer)
+      $info("Correct window buffer for test case %d!", testcase);
+	  else
+      $error("Incorrect window buffer for test case %d!", testcase);
+	  #10
+
   
   end
 endmodule
