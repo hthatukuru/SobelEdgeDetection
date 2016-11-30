@@ -16,7 +16,7 @@ module tb_vertical_gradient ();
   integer testcase;
   
   
-  horizontal_gradient DUT (.windowBuffer(tb_windowBuffer) , .start_calculations(tb_start_calculations), .gy(tb_gy));
+  vertical_gradient DUT (.windowBuffer(tb_windowBuffer) , .start_calculations(tb_start_calculations), .gy(tb_gy));
   
   initial
   begin
@@ -118,7 +118,7 @@ module tb_vertical_gradient ();
     tb_windowBuffer[8] = 1;
    
     tb_start_calculations = 1;
-    tb_expected_gy = -71;
+    tb_expected_gy = 71;
     #10
     assert (tb_expected_gy == tb_gy)
 		  $info("Correct gx value for test case %d!", testcase);
@@ -139,7 +139,7 @@ module tb_vertical_gradient ();
     tb_windowBuffer[8] = 255;
    
     tb_start_calculations = 0;
-    tb_expected_gy = -71;
+    tb_expected_gy = 71;
     #10
     assert (tb_expected_gy == tb_gy)
 		  $info("Correct gx value for test case %d!", testcase);
