@@ -38,7 +38,7 @@ module tb_total_gradient
 	testcase = 1;
 	tb_gx = 3;
 	tb_gy = 4;
-	tb_expected_g = 5;
+	tb_expected_g = 7;
 	#10
 	assert (tb_expected_g == tb_g)
 		$info("Correct g value for test case %d!", testcase);
@@ -49,7 +49,7 @@ module tb_total_gradient
 	testcase = 2;
 	tb_gx = 12;
 	tb_gy = 13;
-	tb_expected_g = 17;
+	tb_expected_g = 25;
 	#10
 	assert (tb_expected_g == tb_g)
 		$info("Correct g value for test case %d!", testcase);
@@ -60,7 +60,7 @@ module tb_total_gradient
 	testcase = 3;
 	tb_gx = 24;
 	tb_gy = 106;
-	tb_expected_g = 108;
+	tb_expected_g = 130;
 	#10
 	assert (tb_expected_g == tb_g)
 		$info("Correct g value for test case %d!", testcase);
@@ -71,7 +71,7 @@ module tb_total_gradient
 	testcase = 4;
 	tb_gx = 200;
 	tb_gy = 95;
-	tb_expected_g = 221;
+	tb_expected_g = 255;
 	#10
 	assert (tb_expected_g == tb_g)
 		$info("Correct g value for test case %d!", testcase);
