@@ -1,108 +1,72 @@
 // $Id: $
-// File name:   tb_total_gradient.sv
-// Created:    
-// Author:      
+// File name:   tb_horizontal_gradient.sv
+// Created:     4/22/2016
+// Author:
 // Lab Section: 337-01
 // Version:     1.0  Initial Design Entry
-// Description: tb for total_gradient.sv
+// Description: tb for horizontal_gradient.sv
 `timescale 1ns / 100ps
 
-module tb_total_gradient
-();
-
-	reg [10:0] tb_gx;
-	reg [10:0] tb_gy;
-	reg [7:0] tb_g;	
+module tb_horizontal_gradient ();
   
+  reg [7:0] tb_windowBuffer[0:8];
+  reg tb_start_calculations;
+  reg [10:0] tb_expected_gx;
+  reg [10:0] tb_gx;
   integer testcase;
-	reg [7:0] tb_expected_g;
   
   
-  total_gradient DUT (.gx(tb_gx), .gy(tb_gy), .g(tb_g));
-  
+  horizontal_gradient DUT (.windowBuffer(tb_windowBuffer) , .start_calculations(tb_start_calculations), .gx(tb_gx));
   
   initial
   begin
-  
-  //initialization
-	testcase = 0;	
-	tb_gx = 0;
-	tb_gy = 0;
-	tb_expected_g = 0;
-	#10
- 	assert (tb_expected_g == tb_g)
-		$info("Correct g value for test case %d!", testcase);
-	else
-		$error("Incorrect g value for test case %d!", testcase);
-	  	#10
-	testcase = 1;
-	tb_gx = 3;
-	tb_gy = 4;
-	tb_expected_g = 7;
-	#10
-	assert (tb_expected_g == tb_g)
-		$info("Correct g value for test case %d!", testcase);
-	else
-		$error("Incorrect g value for test case %d!", testcase);
 
-	#10
-	testcase = 2;
-	tb_gx = 12;
-	tb_gy = 13;
-	tb_expected_g = 25;
-	#10
-	assert (tb_expected_g == tb_g)
-		$info("Correct g value for test case %d!", testcase);
-	else
-		$error("Incorrect g value for test case %d!", testcase);
 
-	#10
-	testcase = 3;
-	tb_gx = 24;
-	tb_gy = 106;
-	tb_expected_g = 130;
-	#10
-	assert (tb_expected_g == tb_g)
-		$info("Correct g value for test case %d!", testcase);
-	else
-		$error("Incorrect g value for test case %d!", testcase);
+	
+    //initialization
+    testcase = 0;
+    tb_windowBuffer[0] = 0;
+    tb_windowBuffer[1] = 0;
+    tb_windowBuffer[2] = 0;
+    tb_windowBuffer[3] = 0;
+    tb_windowBuffer[4] = 0;
+    tb_windowBuffer[5] = 0;
+    tb_windowBuffer[6] = 0;    
+    tb_windowBuffer[7] = 0;
+    tb_windowBuffer[8] = 0;
 
-	#10
-	testcase = 4;
-	tb_gx = 200;
-	tb_gy = 95;
-	tb_expected_g = 255;
-	#10
-	assert (tb_expected_g == tb_g)
-		$info("Correct g value for test case %d!", testcase);
-	else
-		$error("Incorrect g value for test case %d!", testcase);
-
-	#10
-	testcase = 5;
-	tb_gx = 213;
-	tb_gy = 156;
-	tb_expected_g = 255;
-	#10
-	assert (tb_expected_g == tb_g)
-		$info("Correct g value for test case %d!", testcase);
-	else
-		$error("Incorrect g value for test case %d!", testcase);
-
-	#10
-	testcase = 6;
-	tb_gx = 255;
-	tb_gy = 255;
-	tb_expected_g = 255;
-	#10
-	assert (tb_expected_g == tb_g)
-		$info("Correct g value for test case %d!", testcase);
-	else
-		$error("Incorrect g value for test case %d!", testcase);
-
-  
+    tb_start_calculations = 1;
+    tb_expected_gx = 0;
+    #10
+ 	  assert (tb_expected_gx == tb_gx)
+		  $info("Correct gx value for test case %d!", testcase);
+	  else
+		  $error("Incorrect gx value for test case %d!", testcase);
+	  #10
+    
+    //testcase 1
+    testcase = 1;
+    tb_windowBuffer[0] = 50;
+    tb_windowBuffer[1] = 255;
+    tb_windowBuffer[2] = 250;
+    tb_windowBuffer[3] = 100;
+    tb_windowBuffer[4] = 0;
+    tb_windowBuffer[5] = 200;
+    tb_windowBuffer[6] = 100;
+    tb_windowBuffer[7] = 255;
+    tb_windowBuffer[8] = 255;
+   
+    tb_start_calculations = 1;
+    tb_expected_gx = 555;
+    #10
+ 	  assert (tb_expected_gx == tb_gx)
+		  $info("Correct gx value for test case %d!", testcase);
+	  else
+		  $error("Incorrect gx value for test case %d!", testcase);
+    
   end
+endmodule
   
   
   
-  endmodule
+  
