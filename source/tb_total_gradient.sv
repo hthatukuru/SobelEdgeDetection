@@ -18,9 +18,7 @@ module tb_total_gradient
 	reg [7:0] tb_expected_g;
   
   
-  total_gradient 
-	DUT
-	(.gx(tb_gx), .gy(tb_gy), .g(tb_g));
+  total_gradient DUT (.gx(tb_gx), .gy(tb_gy), .g(tb_g));
   
   
   initial
