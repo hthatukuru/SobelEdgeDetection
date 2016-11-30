@@ -24,19 +24,19 @@ module windowBuffer
   begin
     tempWindowBuffer = windowBufferIn;
     
-    if(start_shift)
+    if(start_shift == 1)
     begin
 
       if(shift_direc == 2'b01)  // shift left
       begin
-        tempWindowBuffer [0] = tempWindowBuffer [3];
-        tempWindowBuffer [1] = tempWindowBuffer [4];
-        tempWindowBuffer [2] = tempWindowBuffer [5];
-        tempWindowBuffer [3] = tempWindowBuffer [6];
-        tempWindowBuffer [4] = tempWindowBuffer [7];
-        tempWindowBuffer [5] = tempWindowBuffer [8];
-        tempWindowBuffer [6] = 0;
-        tempWindowBuffer [7] = 0;
+        tempWindowBuffer [0] = tempWindowBuffer [1];
+        tempWindowBuffer [3] = tempWindowBuffer [4];
+        tempWindowBuffer [6] = tempWindowBuffer [7];
+        tempWindowBuffer [1] = tempWindowBuffer [2];
+        tempWindowBuffer [4] = tempWindowBuffer [5];
+        tempWindowBuffer [7] = tempWindowBuffer [8];
+        tempWindowBuffer [2] = 0;
+        tempWindowBuffer [5] = 0;
         tempWindowBuffer [8] = 0;
         
         read_done = 0;
@@ -45,15 +45,17 @@ module windowBuffer
 
       else if(shift_direc == 2'b10) // shift right
       begin
-        tempWindowBuffer [8] = tempWindowBuffer [5];
-        tempWindowBuffer [7] = tempWindowBuffer [4];
-        tempWindowBuffer [6] = tempWindowBuffer [3];
-        tempWindowBuffer [5] = tempWindowBuffer [2];
-        tempWindowBuffer [4] = tempWindowBuffer [1];
-        tempWindowBuffer [3] = tempWindowBuffer [0];
+	tempWindowBuffer [2] = tempWindowBuffer [1];
+        tempWindowBuffer [5] = tempWindowBuffer [4];
+        tempWindowBuffer [8] = tempWindowBuffer [7];
+        tempWindowBuffer [1] = tempWindowBuffer [0];
+        tempWindowBuffer [4] = tempWindowBuffer [3];
+        tempWindowBuffer [7] = tempWindowBuffer [6];
+        tempWindowBuffer [6] = 0;
+        tempWindowBuffer [3] = 0;
         tempWindowBuffer [0] = 0;
-        tempWindowBuffer [1] = 0;
-        tempWindowBuffer [2] = 0;
+
+        
         
         read_done = 0;
         shift_done = 1;
@@ -61,15 +63,15 @@ module windowBuffer
 
       else if(shift_direc == 2'b11) // shift down
       begin
-        tempWindowBuffer [2] = tempWindowBuffer [1];
-        tempWindowBuffer [5] = tempWindowBuffer [4];
-        tempWindowBuffer [8] = tempWindowBuffer [7];
-        tempWindowBuffer [1] = tempWindowBuffer [0];
-        tempWindowBuffer [4] = tempWindowBuffer [3];
-        tempWindowBuffer [7] = tempWindowBuffer [6]
+        tempWindowBuffer [6] = tempWindowBuffer [3];
+        tempWindowBuffer [7] = tempWindowBuffer [4];
+        tempWindowBuffer [8] = tempWindowBuffer [5];
+        tempWindowBuffer [3] = tempWindowBuffer [0];
+        tempWindowBuffer [4] = tempWindowBuffer [1];
+        tempWindowBuffer [5] = tempWindowBuffer [2];
         tempWindowBuffer [0] = 0;
-        tempWindowBuffer [3] = 0;
-        tempWindowBuffer [6] = 0;
+        tempWindowBuffer [1] = 0;
+        tempWindowBuffer [2] = 0;
         
         read_done = 0;
         shift_done = 1;
@@ -77,12 +79,12 @@ module windowBuffer
       
     end
     
-    else if(start_read)
+    else if(start_read == 1)
     begin
       
       while ( (i < 9) && notFound )
       begin
-        if tempWindowBuffer[i] = 0
+        if (tempWindowBuffer[i] == 0)
           begin
             firstEmpty = i;
             notFound = 0;
