@@ -30,15 +30,15 @@ module horizontal_gradient(
 	assign P8 = windowBuffer[8];
 	
 	
-		always_comb
-		begin
+	always_comb
+	begin
 
-			if (start_calculations == 1)	
-				abs_gx=((P2-P0)+((P5-P3)<<1)+(P8-P6));	//sobel mask for gradient in horiz. direction 
+		if (start_calculations == 1)	
+			abs_gx=((P2-P0)+((P5-P3)<<1)+(P8-P6));	//sobel mask for gradient in horiz. direction 
 
-		
-		
-		end
+
+
+	end
 
 	assign gx = (abs_gx[10]? ~abs_gx+1 : abs_gx);
 
