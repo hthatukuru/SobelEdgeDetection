@@ -8,30 +8,31 @@ module vertical_gradient(
 );
 
 	wire signed [10:0] abs_gy;
-	reg [7:0] P0;
-	reg [7:0] P1;
-	reg [7:0] P2;
-	reg [7:0] P3;
-	reg [7:0] P4;
-	reg [7:0] P5;
-	reg [7:0] P6;
-	reg [7:0] P7;
-	reg [7:0] P8;
+	wire [7:0] P0;
+	wire [7:0] P1;
+	wire [7:0] P2;
+	wire [7:0] P3;
+	wire [7:0] P4;
+	wire [7:0] P5;
+	wire [7:0] P6;
+	wire [7:0] P7;
+	wire [7:0] P8;
 	
 	
-	P0 = windowBuffer[0];
-	P1 = windowBuffer[1];
-	P2 = windowBuffer[2];
-	P3 = windowBuffer[3];
-	P4 = windowBuffer[4];
-	P5 = windowBuffer[5];
-	P6 = windowBuffer[6];
-	P7 = windowBuffer[7];
-	P8 = windowBuffer[8];
+	assign P0 = windowBuffer[0];
+	assign P1 = windowBuffer[1];
+	assign P2 = windowBuffer[2];
+	assign P3 = windowBuffer[3];
+	assign P4 = windowBuffer[4];
+	assign P5 = windowBuffer[5];
+	assign P6 = windowBuffer[6];
+	assign P7 = windowBuffer[7];
+	assign P8 = windowBuffer[8];
 	
-	if (start_calculation == 1)
-	begin	
-		assign abs_gy=((P0-P6)+((P1-P7)<<1)+(P2-P8)); //sobel mask for gradient in vertical direction 
+	always_comb
+	begin
+		if (start_calculation == 1)
+			assign abs_gy=((P0-P6)+((P1-P7)<<1)+(P2-P8)); //sobel mask for gradient in vertical direction 
 	end
 	
 	assign gy = (abs_gy[10]? ~abs_gy+1 : abs_gy);
