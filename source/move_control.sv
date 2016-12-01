@@ -16,7 +16,7 @@ module move_control(
 	output reg move_done
 	
 );
-   reg 		    next_all_done, next_move_done;
+   reg 		    next_move_done;
  
    reg [11:0]		   x, y;
    reg [7:0] 	   next_addr_r, next_addr_w;
@@ -33,7 +33,7 @@ module move_control(
 	     x <= 0;
 	     y <= 0;
 	     direction <= 2'b00;  
-	     all_done <= 0;
+	     //all_done <= 0;
 	     move_done <= 0;
 	     	     
 	  end
@@ -44,7 +44,7 @@ module move_control(
 	     x <= next_x;
 	     y <= next_y;
 	     direction <= next_direction;
-	     all_done <= next_all_done;
+	     //all_done <= next_all_done;
 	     move_done <= next_move_done;
 	     
 	     
@@ -59,14 +59,12 @@ always_comb
 		   next_addr_w = initial_addr_w;
 		   next_x = 1;
 		   next_y = 1;
-		   next_all_done = 0;
+		   all_done = 0;
 		   next_move_done = 0;
 		   next_direction = 2'b01;
 		end 
 	else if (start_move == 1 && !move_done && !all_done)
 		begin
-		   //movex = 0;
-		   //movey = 0;
 		   next_move_done = 0;
 
 // address
@@ -74,7 +72,6 @@ always_comb
 			begin
 			   next_addr_r = addr_r + 1;			   
 			   next_addr_w = addr_w + 1;
-			   //movex = 1;
 			   next_move_done = 1;
 			   next_x = x + 1;
 			end
@@ -82,7 +79,6 @@ always_comb
 			begin
 			   next_addr_r = addr_r - 1;
 			   next_addr_w = addr_w - 1;
-			   //movex = 1;
 			   next_move_done = 1;
 			   next_x = x - 1;
 			end
@@ -90,14 +86,13 @@ always_comb
 			begin
 			   next_addr_r = addr_r + length;
 			   next_addr_w = addr_w + length;
-			   //movey = 1;
 			   next_move_done = 1;
 			   next_y = y + 1;
 			end		   
 // direction
 		if (y == (width - 2) && direction == 2'b11)
 			begin
-			   next_all_done = 1;
+			   all_done = 1;
 			end		   
 		else if (x == 2 && direction == 2'b10)
 			begin
@@ -129,6 +124,7 @@ always_comb
 	  begin
 	     next_move_done = 0;
 	  end
+
 	   
 	end
 endmodule

@@ -41,9 +41,9 @@ module tb_move_control
     begin
   
   //initialization
-       testcase = 0;
+       testcase = 1;
        tb_n_reset = 1;
-
+       #1
        tb_width = 5;
        tb_length = 5;
        tb_initial_addr_r = 100;
@@ -60,11 +60,6 @@ module tb_move_control
 	   $info("Correct initial read address for test case %d!", testcase);
 	else
 	  $error("Incorrect initial read address for test case %d!", testcase);
-       testcase = 1;
-         assert (tb_expected_addr_w == tb_addr_w)
-	   $info("Correct initial write address for test case %d!", testcase);
-	else
-	  $error("Incorrect initial write address for test case %d!", testcase);
        testcase = 2;
        assert (tb_expected_direction == tb_direction)
 	 $info("Correct initial direction for test case %d!", testcase);
@@ -76,7 +71,6 @@ module tb_move_control
        tb_load_initial = 0;
        tb_start_move = 1;
        tb_expected_addr_r = 101;
-       tb_expected_addr_w = 1;
        tb_expected_direction = 2'b01;       
        #10
          assert (tb_expected_addr_r == tb_addr_r)
@@ -84,43 +78,48 @@ module tb_move_control
 	else
 	  $error("Incorrect read address for test case %d!", testcase);
        testcase = 4;
-         assert (tb_expected_addr_w == tb_addr_w)
-	   $info("Correct write address for test case %d!", testcase);
-	else
-	  $error("Incorrect write address for test case %d!", testcase); 
-       testcase = 5;
        assert (tb_expected_direction == tb_direction)
-	 $info("Correct initial direction for test case %d!", testcase);
+	 $info("Correct direction for test case %d!", testcase);
         else
-	  $error("Incorrect initial direction for test case %d!", testcase);
+	  $error("Incorrect direction for test case %d!", testcase);
+       
        tb_start_move = 0;
        #20
-       testcase = 6;
+       testcase = 5;
        tb_start_move = 1;
        tb_expected_addr_r = 102;
-       tb_expected_addr_w = 2;
        tb_expected_direction = 2'b11;       
        #10
          assert (tb_expected_addr_r == tb_addr_r)
 	   $info("Correct read address for test case %d!", testcase);
 	else
 	  $error("Incorrect read address for test case %d!", testcase);
-       testcase = 7;
-         assert (tb_expected_addr_w == tb_addr_w)
-	   $info("Correct write address for test case %d!", testcase);
-	else
-	  $error("Incorrect write address for test case %d!", testcase); 
-       testcase = 8;
+       testcase = 6;
        assert (tb_expected_direction == tb_direction)
 	 $info("Correct change direction to up for test case %d!", testcase);
         else
-	  $error("Incorrect change direction to up for test case %d!", testcase);    
+	  $error("Incorrect change direction to up for test case %d!", testcase);   
+ 
        tb_start_move = 0;
+       #10
+       testcase = 7;
+       tb_start_move = 1;
+       tb_expected_addr_r = 107;
+       tb_expected_direction = 2'b10;       
+       #10
+         assert (tb_expected_addr_r == tb_addr_r)
+	   $info("Correct read address for test case %d!", testcase);
+	else
+	  $error("Incorrect read address for test case %d!", testcase);
+       testcase = 8;
+       assert (tb_expected_direction == tb_direction)
+	 $info("Correct change direction to left for test case %d!", testcase);
+        else
+	  $error("Incorrect change direction to left for test case %d!", testcase);  
        #10
        testcase = 9;
        tb_start_move = 1;
-       tb_expected_addr_r = 107;
-       tb_expected_addr_w = 7;
+       tb_expected_addr_r = 106;
        tb_expected_direction = 2'b10;       
        #10
          assert (tb_expected_addr_r == tb_addr_r)
@@ -128,16 +127,78 @@ module tb_move_control
 	else
 	  $error("Incorrect read address for test case %d!", testcase);
        testcase = 10;
-         assert (tb_expected_addr_w == tb_addr_w)
-	   $info("Correct write address for test case %d!", testcase);
-	else
-	  $error("Incorrect write address for test case %d!", testcase); 
+       assert (tb_expected_direction == tb_direction)
+	 $info("Correct direction for test case %d!", testcase);
+        else
+	  $error("Incorrect direction for test case %d!", testcase);
+       #10
        testcase = 11;
+       tb_start_move = 1;
+       tb_expected_addr_r = 105;
+       tb_expected_direction = 2'b11;       
+       #10
+         assert (tb_expected_addr_r == tb_addr_r)
+	   $info("Correct read address for test case %d!", testcase);
+	else
+	  $error("Incorrect read address for test case %d!", testcase);
+       testcase = 12;
        assert (tb_expected_direction == tb_direction)
 	 $info("Correct change direction to up for test case %d!", testcase);
         else
-	  $error("Incorrect change direction to up for test case %d!", testcase);         
-	  
+	  $error("Incorrect change direction to up for test case %d!", testcase);
+       #10
+       testcase = 13;
+       tb_start_move = 1;
+       tb_expected_addr_r = 110;
+       tb_expected_direction = 2'b01;       
+       #10
+         assert (tb_expected_addr_r == tb_addr_r)
+	   $info("Correct read address for test case %d!", testcase);
+	else
+	  $error("Incorrect read address for test case %d!", testcase);
+       testcase = 14;
+       assert (tb_expected_direction == tb_direction)
+	 $info("Correct change direction to right for test case %d!", testcase);
+        else
+	  $error("Incorrect change direction to right for test case %d!", testcase);  
+       #10
+       testcase = 15;
+       tb_start_move = 1;
+       tb_expected_addr_r = 111;
+       tb_expected_direction = 2'b01;       
+       #10
+         assert (tb_expected_addr_r == tb_addr_r)
+	   $info("Correct read address for test case %d!", testcase);
+	else
+	  $error("Incorrect read address for test case %d!", testcase);
+       testcase = 16;
+       assert (tb_expected_direction == tb_direction)
+	 $info("Correct direction for test case %d!", testcase);
+        else
+	  $error("Incorrect direction for test case %d!", testcase);
+       #10
+       testcase = 17;
+       tb_start_move = 1;
+       tb_expected_addr_r = 112;
+       tb_expected_direction = 2'b11;
+       tb_expected_all_done = 1;
+       
+       #10
+         assert (tb_expected_addr_r == tb_addr_r)
+	   $info("Correct read address for test case %d!", testcase);
+	else
+	  $error("Incorrect read address for test case %d!", testcase);
+       testcase = 18;
+       assert (tb_expected_direction == tb_direction)
+	 $info("Correct change direction to up for test case %d!", testcase);
+        else
+	  $error("Incorrect change direction to up for test case %d!", testcase);
+       #10
+       testcase = 19;
+       assert (tb_expected_all_done == tb_all_done)
+	 $info("Correct all done flag for test case %d!", testcase);
+        else
+	  $error("Incorrect all done flag for test case %d!", testcase);    	  
 
     end // initial begin
    
