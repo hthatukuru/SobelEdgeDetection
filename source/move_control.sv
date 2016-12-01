@@ -16,11 +16,10 @@ module move_control(
 	output reg move_done
 	
 );
-   reg 		   movex, movey, next_all_done;
+   reg 		    next_all_done, next_move_done;
  
    reg [11:0]		   x, y;
-   reg [7:0] 	   next_addr_r;
-   reg [7:0] 	   next_addr_w;
+   reg [7:0] 	   next_addr_r, next_addr_w;
    reg [11:0]	   next_x, next_y;
    reg [1:0] 	   next_direction;
    
@@ -35,7 +34,8 @@ module move_control(
 	     y <= 0;
 	     direction <= 2'b00;  
 	     all_done <= 0;
-	     
+	     move_done <= 0;
+	     	     
 	  end
 	else
 	  begin
@@ -45,6 +45,8 @@ module move_control(
 	     y <= next_y;
 	     direction <= next_direction;
 	     all_done <= next_all_done;
+	     move_done <= next_move_done;
+	     
 	     
 	  end
 	end
@@ -58,35 +60,38 @@ always_comb
 		   next_x = 1;
 		   next_y = 1;
 		   next_all_done = 0;
-		   move_done = 0;
+		   next_move_done = 0;
 		   next_direction = 2'b01;
 		end 
-	else if (start_move == 1)
+	else if (start_move == 1 && !move_done && !all_done)
 		begin
-		   movex = 0;
-		   movey = 0;
-		   move_done = 0;
+		   //movex = 0;
+		   //movey = 0;
+		   next_move_done = 0;
 
 // address
 		if (direction == 2'b01) //move(right, left, up)
 			begin
 			   next_addr_r = addr_r + 1;			   
 			   next_addr_w = addr_w + 1;
-			   movex = 1;
+			   //movex = 1;
+			   next_move_done = 1;
 			   next_x = x + 1;
 			end
 		else if (direction == 2'b10)
 			begin
 			   next_addr_r = addr_r - 1;
 			   next_addr_w = addr_w - 1;
-			   movex = 1;
+			   //movex = 1;
+			   next_move_done = 1;
 			   next_x = x - 1;
 			end
 		else if (direction == 2'b11)
 			begin
 			   next_addr_r = addr_r + length;
 			   next_addr_w = addr_w + length;
-			   movey = 1;
+			   //movey = 1;
+			   next_move_done = 1;
 			   next_y = y + 1;
 			end		   
 // direction
@@ -115,10 +120,15 @@ always_comb
 
 
 //determine move is finished
-		if (movex == 1 || movey == 1) 
-			begin
-			   move_done = 1;			   
-			end
-		end
+//		if (movex == 1 || movey == 1) 
+//			begin
+//			   next_move_done = 1;			   
+//			end
+		end // if (start_move == 1 && !move_done)
+	else if (move_done)
+	  begin
+	     next_move_done = 0;
+	  end
+	   
 	end
 endmodule

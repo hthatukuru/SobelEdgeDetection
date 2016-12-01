@@ -94,12 +94,12 @@ module tb_move_control
         else
 	  $error("Incorrect initial direction for test case %d!", testcase);
        tb_start_move = 0;
-       #10
+       #20
        testcase = 6;
        tb_start_move = 1;
        tb_expected_addr_r = 102;
        tb_expected_addr_w = 2;
-       tb_expected_direction = 2'b01;       
+       tb_expected_direction = 2'b11;       
        #10
          assert (tb_expected_addr_r == tb_addr_r)
 	   $info("Correct read address for test case %d!", testcase);
@@ -121,7 +121,7 @@ module tb_move_control
        tb_start_move = 1;
        tb_expected_addr_r = 107;
        tb_expected_addr_w = 7;
-       tb_expected_direction = 2'b11;       
+       tb_expected_direction = 2'b10;       
        #10
          assert (tb_expected_addr_r == tb_addr_r)
 	   $info("Correct read address for test case %d!", testcase);
