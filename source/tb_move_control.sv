@@ -2,7 +2,7 @@
 
 module tb_move_control
 ();
-   localparam   CLK_PERIOD = 2.5;
+   localparam   CLK_PERIOD = 10;
    localparam	CHECK_DELAY = 1; 
    reg tb_clk;
    reg tb_n_reset;
@@ -41,7 +41,9 @@ module tb_move_control
     begin
   
   //initialization
-       testcase = 0;	
+       testcase = 0;
+       tb_n_reset = 1;
+
        tb_width = 5;
        tb_length = 5;
        tb_initial_addr_r = 100;
@@ -68,7 +70,7 @@ module tb_move_control
 	 $info("Correct initial direction for test case %d!", testcase);
         else
 	  $error("Incorrect initial direction for test case %d!", testcase);
-       
+     
        #10
        testcase = 3;
        tb_load_initial = 0;
