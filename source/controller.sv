@@ -33,10 +33,13 @@ always_comb
 begin : Next State
   next_state = state;
   case (state)
+      
     IDLE:
     begin
         if (start == 1)
             next_state = LOAD_PARAM;
+        else
+            next_state = IDLE;
     end
       
     LOAD_PARAM: 
@@ -110,7 +113,10 @@ begin : Next State
       
       CHECK_PIXEL:
           begin
-             next_state = READ_P1; 
+              if (all_done == 0)
+                next_state = READ_P1;
+              else
+                next_state = IMAGE_DONE;
           end
       
       READ_P1:
@@ -124,7 +130,10 @@ begin : Next State
       
       READ_P3:
             begin
+                if (all_done == 1)
                     next_state = IMAGE_DONE;    // need if and else statment here
+                else 
+                    next_state = GRADIENT;
             end
       IMAGE_DONE:
           begin
@@ -136,5 +145,192 @@ begin : Next State
   endcase
 end
 
+    
+always_comb
+begin : OUTPUT
+  next_state = state;
+  case (state)
+      
+    IDLE:
+    begin
+        start_write = 0;
+        start_move = 0;
+        start_shift = 0; 
+        start_read = 0; 
+        start_calculation = 0;
+    end
+      
+    LOAD_PARAM: 
+    begin
+        start_write = 0;
+        start_move = 0;
+        start_shift = 0; 
+        start_read = 0; 
+        start_calculation = 0;
+    end
+      
+     L_PIXEL1:
+        begin
+        start_write = 0;
+        start_move = 0;
+        start_shift = 0; 
+        start_read = 1; 
+        start_calculation = 0;
+        end
+      
+      L_PIXEL2:
+        begin
+        start_write = 0;
+        start_move = 0;
+        start_shift = 0; 
+        start_read = 1; 
+        start_calculation = 0;
+        end
+      
+      L_PIXEL3:
+        begin
+        start_write = 0;
+        start_move = 0;
+        start_shift = 0; 
+        start_read =10; 
+        start_calculation = 0;
+        end
+      L_PIXEL4:
+        begin
+        start_write = 0;
+        start_move = 0;
+        start_shift = 0; 
+        start_read = 1; 
+        start_calculation = 0;
+        end
+      
+      L_PIXEL5:
+        begin
+        start_write = 0;
+        start_move = 0;
+        start_shift = 0; 
+        start_read = 1; 
+        start_calculation = 0; 
+        end
+      
+      L_PIXEL6:
+        begin
+        start_write = 0;
+        start_move = 0;
+        start_shift = 0; 
+        start_read = 1; 
+        start_calculation = 0;
+        end
+      
+      L_PIXEL7:
+        begin
+        start_write = 0;
+        start_move = 0;
+        start_shift = 0; 
+        start_read = 1; 
+        start_calculation = 0; 
+        end
+      
+      L_PIXEL8:
+        begin
+        start_write = 0;
+        start_move = 0;
+        start_shift = 0; 
+        start_read = 1; 
+        start_calculation = 0; 
+        end
+      
+      L_PIXEL9:
+        begin
+        start_write = 0;
+        start_move = 0;
+        start_shift = 0; 
+        start_read = 1; 
+        start_calculation = 0;
+        end
+      
+      GRADIENT:
+          begin
+          start_write = 0;
+          start_move = 0;
+          start_shift = 0; 
+          start_read = 0; 
+          start_calculation = 1;
+          end
+      
+      T_GRADIENT:
+          begin
+          start_write = 0;
+          start_move = 0;
+          start_shift = 0; 
+          start_read = 0; 
+          start_calculation = 0;
+          end
+      
+      CHECK_EDGE:
+          begin
+          start_write = 0;
+          start_move = 0;
+          start_shift = 0; 
+          start_read = 0; 
+          start_calculation = 0; 
+          end
+      
+      WRITE:
+          begin
+          start_write = 1;
+          start_move = 0;
+          start_shift = 0; 
+          start_read = 0; 
+          start_calculation = 0;
+          end
+      
+      CHECK_PIXEL:
+          begin
+          start_write = 0;
+          start_move = 0;
+          start_shift = 0; 
+          start_read = 0; 
+          start_calculation = 0;
+          end
+      
+      READ_P1:
+          begin
+          start_write = 0;
+          start_move = 0;
+          start_shift = 0; 
+          start_read = 1; 
+          start_calculation = 0;
+          end
+      READ_P2:
+            begin
+            start_write = 0;
+            start_move = 0;
+            start_shift = 0; 
+            start_read = 1; 
+            start_calculation = 0; 
+            end
+      
+      READ_P3:
+            begin
+            start_write = 0;
+            start_move = 0;
+            start_shift = 0; 
+            start_read = 1; 
+            start_calculation = 0;
+            end
+      IMAGE_DONE:
+          begin
+            start_write = 0;
+            start_move = 0;
+            start_shift = 0; 
+            start_read = 0; 
+            start_calculation = 0;
+          end
+      
+      
+    
+  endcase
+end
 
 endmodule
