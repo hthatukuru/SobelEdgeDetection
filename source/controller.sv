@@ -103,6 +103,7 @@ begin : Next State
       
       CHECK_EDGE:
           begin
+              if (write_done == 1) 
              next_state = WRITE; 
           end
       
