@@ -36,6 +36,7 @@ module move_control(
 	     direction <= 2'b00;  
 	     //all_done <= 0;
 	     move_done <= 0;
+   	     load_done <= 0;
 	     	     
 	  end
 	else
