@@ -8,6 +8,7 @@ module move_control(
 	input reg [7:0] initial_addr_w,
 	input reg start_move,
 	input reg load_initial,
+	input reg start_write //take care of this signal and update write only once
 //output
 	output reg [7:0] addr_r,
 	output reg [7:0] addr_w,
