@@ -28,6 +28,10 @@ end
   reg tb_read_done;
   reg tb_calculation_done;
   reg tb_shift_done;
+  reg tb_load_done;
+  reg tb_read_data_done;
+  reg tb_h_done;
+  reg tb_v_done;
 
   //outputs
   reg tb_start_write;
@@ -35,6 +39,10 @@ end
   reg tb_start_shift;
   reg tb_start_read;
   reg tb_start_calculation; 
+  reg tb_load_initial;
+  reg tb_start_i_read;
+  reg tb_start_t_grad;
+  reg tb_start_9_read;
 
   //expected outputs
   reg expected_tb_start_write;
@@ -42,11 +50,15 @@ end
   reg expected_tb_start_shift;
   reg expected_tb_start_read;
   reg expected_tb_start_calculation; 
+  reg expected_tb_load_initial;
+  reg expected_tb_start_i_read;
+  reg expected_tb_start_t_grad;
+  reg expected_tb_start_9_read;
 
   //testcase number
   integer testcase;
 
-  controller DUT (.clk(tb_clk), .n_rst(tb_n_rst), .start(tb_start), .move_done(tb_move_done), .all_done(tb_all_done), .write_done(tb_write_done), .read_done(tb_read_done), .calculation_done(tb_calculation_done), .shift_done(tb_shift_done), .start_write(tb_start_write), .start_move(tb_start_move), .start_shift(tb_start_shift), .start_read(tb_start_read), .start_calculation(tb_start_calculation));
+  controller DUT (.clk(tb_clk), .n_rst(tb_n_rst), .start(tb_start), .move_done(tb_move_done), .all_done(tb_all_done), .write_done(tb_write_done), .read_done(tb_read_done), .calculation_done(tb_calculation_done), .load_done(tb_load_done), .read_data_done(tb_read_data_done), .h_done(tb_h_done), .v_done(tb_v_done), .shift_done(tb_shift_done), .start_write(tb_start_write), .start_move(tb_start_move), .start_shift(tb_start_shift), .start_read(tb_start_read), .start_calculation(tb_start_calculation) .load_initial(tb_load_initial), .start_i_read(tb_start_i_read), .start_t_grad(tb_start_t_grad), .start_9_read(tb_start_9_read));
 
 
 
@@ -105,13 +117,13 @@ end
   	expected_tb_start_read = 1;
    	expected_tb_start_calculation = 0; 
 
-
+/*
 	#100
  	  assert (expected_tb_start_read == tb_start_read)
 		  $info("Correct start read value for test case %d!", testcase);
 	  else
 		  $error("Incorrect start read value for test case %d!", testcase);
-	  //#10
+	  //#10 */
 
 	#100
 
