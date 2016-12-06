@@ -13,7 +13,8 @@ module move_control(
 	output reg [7:0] addr_w,
 	output reg [1:0]direction, //0 for right, 1 for left, 2 for up
 	output reg all_done, 
-	output reg move_done
+	output reg move_done,
+	output reg load_done //adding to notify controller that the initial load is done
 	
 );
    reg 		    next_move_done;
@@ -62,6 +63,7 @@ always_comb
 		   all_done = 0;
 		   next_move_done = 0;
 		   next_direction = 2'b01;
+		   load_done = 1;
 		end 
 	else if (start_move == 1 && !move_done && !all_done)
 		begin
