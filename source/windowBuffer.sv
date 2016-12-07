@@ -19,7 +19,7 @@ module windowBuffer
 
   reg [7:0] tempWindowBuffer[0:8];
   reg count;
-  reg nextCount;
+  // reg nextCount;
   
   always_ff @ (negedge n_rst, posedge clk)
 	begin :	resetting
@@ -27,16 +27,16 @@ module windowBuffer
 		begin
 			count <= 0;
 		end
-		else
+		/* else
 		begin
 			count <= nextCount;
-		end
+		end */
 	end
 
   always_comb
   begin
     // tempWindowBuffer = windowBufferIn;
-    nextCount = count;
+    //nextCount = count;
 
     if(start_shift == 1)
     begin
@@ -89,7 +89,7 @@ module windowBuffer
         shift_done = 1;
       end
       
-	nextCount = 0;
+	count = 0;
     end
     
     else if(start_read == 1)
@@ -133,75 +133,75 @@ module windowBuffer
 		begin
 			tempWindowBuffer[2] = data_r;
 		end
-		
-		nextCount = count + 1;
+		count++;
+		/* nextCount = count + 1;
 		if(nextCount == 9)
 		begin
 			nextCount = 0;
-		end
+		end */
 	end
 	else if(shift_direc == 2'b01)
 	begin
-		if(nextCount == 0)
+		if(count == 0)
 		begin
 			tempWindowBuffer[8] = data_r;
 		end
-		else if(nextCount == 1)
+		else if(count == 1)
 		begin
 			tempWindowBuffer[5] = data_r;
 		end
-		else if(nextCount == 2)
+		else if(count == 2)
 		begin
 			tempWindowBuffer[2] = data_r;
 		end
-
-		nextCount = count + 1;
+		count++;
+		/*nextCount = count + 1;
 		if(nextCount == 3)
 		begin
 			nextCount = 0;
-		end
+		end */
 	end
 	else if(shift_direc == 2'b10)
 	begin
-		if(nextCount == 0)
+		if(count == 0)
 		begin
 			tempWindowBuffer[6] = data_r;
 		end
-		else if(nextCount == 1)
+		else if(count == 1)
 		begin
 			tempWindowBuffer[3] = data_r;
 		end
-		else if(nextCount == 2)
+		else if(count == 2)
 		begin
 			tempWindowBuffer[0] = data_r;
 		end
-
-		nextCount = count + 1;
+		count++;
+		/* nextCount = count + 1;
 		if(nextCount == 9)
 		begin
 			nextCount = 0;
-		end
+		end */
 	end
         else if(shift_direc == 2'b11)
 	begin
-		if(nextCount == 0)
+		if(count == 0)
 		begin
 			tempWindowBuffer[0] = data_r;
 		end
-		else if(nextCount == 1)
+		else if(count == 1)
 		begin
 			tempWindowBuffer[1] = data_r;
 		end
-		else if(nextCount == 2)
+		else if(count == 2)
 		begin
 			tempWindowBuffer[2] = data_r;
 		end
-
-		nextCount = count + 1;
+		count++;
+		/* nextCount = count + 1;
 		if(nextCount == 9)
 		begin
 			nextCount = 0;
-		end
+		end */
 	end
 
 	read_done = 1;
