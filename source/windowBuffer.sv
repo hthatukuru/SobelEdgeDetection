@@ -18,7 +18,7 @@ module windowBuffer
 );
 
   reg [7:0] tempWindowBuffer[0:8];
-  reg count;
+  reg [3:0] count;
   // reg nextCount;
   
   always_ff @ (negedge n_rst, posedge clk)
