@@ -5,8 +5,8 @@
 
 module windowBuffer
 (
-  input n_rst,
-  input clk,
+  input wire n_rst,
+  input wire clk,
   input reg start_shift,
   input reg start_read,
   input reg [1:0] shift_direc,
@@ -18,20 +18,20 @@ module windowBuffer
 );
 
   reg [7:0] tempWindowBuffer[0:8];
-  reg [3:0] count;
-  // reg nextCount;
   
+  reg [3:0] count = 0;
+  
+ /* 
   always_ff @ (negedge n_rst, posedge clk)
 	begin :	resetting
 		if( n_rst == 1'b0 )
 		begin
 			count <= 0;
 		end
-		/* else
-		begin
-			count <= nextCount;
-		end */
+		
 	end
+*/
+
 
   always_comb
   begin
@@ -55,6 +55,7 @@ module windowBuffer
         
         read_done = 0;
         shift_done = 1;
+	
       end
 
       else if(shift_direc == 2'b10) // shift right
@@ -94,51 +95,59 @@ module windowBuffer
     
     else if(start_read == 1)
     begin
-      
-	if(shift_direc == 2'b00)
+        
+	if(shift_direc == 2'b00 )
 	begin
+		
 		if(count == 0)
 		begin
 			tempWindowBuffer[6] = data_r;
+			//nextCount = count + 1;
+			
 		end
 		else if(count == 1)
 		begin
 			tempWindowBuffer[7] = data_r;
+			
 		end
 		else if(count == 2)
 		begin
 			tempWindowBuffer[8] = data_r;
+			
 		end
 		else if(count == 3)
 		begin
 			tempWindowBuffer[3] = data_r;
+			
 		end
 		else if(count == 4)
 		begin
 			tempWindowBuffer[4] = data_r;
+			
 		end
 		else if(count == 5)
 		begin
 			tempWindowBuffer[5] = data_r;
+			
 		end
 		else if(count == 6)
 		begin
 			tempWindowBuffer[0] = data_r;
+			
 		end
 		else if(count == 7)
 		begin
 			tempWindowBuffer[1] = data_r;
+			//nextCount = count + 1;
 		end
 		else if(count == 8)
 		begin
 			tempWindowBuffer[2] = data_r;
+			
 		end
+		
 		count++;
-		/* nextCount = count + 1;
-		if(nextCount == 9)
-		begin
-			nextCount = 0;
-		end */
+		
 	end
 	else if(shift_direc == 2'b01)
 	begin
@@ -154,12 +163,9 @@ module windowBuffer
 		begin
 			tempWindowBuffer[2] = data_r;
 		end
+
+		
 		count++;
-		/*nextCount = count + 1;
-		if(nextCount == 3)
-		begin
-			nextCount = 0;
-		end */
 	end
 	else if(shift_direc == 2'b10)
 	begin
@@ -175,12 +181,9 @@ module windowBuffer
 		begin
 			tempWindowBuffer[0] = data_r;
 		end
+
 		count++;
-		/* nextCount = count + 1;
-		if(nextCount == 9)
-		begin
-			nextCount = 0;
-		end */
+	
 	end
         else if(shift_direc == 2'b11)
 	begin
@@ -196,12 +199,8 @@ module windowBuffer
 		begin
 			tempWindowBuffer[2] = data_r;
 		end
+
 		count++;
-		/* nextCount = count + 1;
-		if(nextCount == 9)
-		begin
-			nextCount = 0;
-		end */
 	end
 
 	read_done = 1;
