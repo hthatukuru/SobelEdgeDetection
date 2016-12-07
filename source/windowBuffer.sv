@@ -135,6 +135,10 @@ module windowBuffer
 		end
 		
 		nextCount = count + 1;
+		if(nextCount == 9)
+		begin
+			nextCount = 0;
+		end
 	end
 	else if(shift_direc == 2'b01)
 	begin
@@ -152,6 +156,10 @@ module windowBuffer
 		end
 
 		nextCount = count + 1;
+		if(nextCount == 3)
+		begin
+			nextCount = 0;
+		end
 	end
 	else if(shift_direc == 2'b10)
 	begin
@@ -169,6 +177,10 @@ module windowBuffer
 		end
 
 		nextCount = count + 1;
+		if(nextCount == 9)
+		begin
+			nextCount = 0;
+		end
 	end
         else if(shift_direc == 2'b11)
 	begin
@@ -186,6 +198,10 @@ module windowBuffer
 		end
 
 		nextCount = count + 1;
+		if(nextCount == 9)
+		begin
+			nextCount = 0;
+		end
 	end
 
 	read_done = 1;
