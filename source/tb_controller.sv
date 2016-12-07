@@ -67,8 +67,168 @@ end
 	//initialization
 	testcase = 0;
 
+	tb_n_rst = 0;
+	tb_start = 0;
+	tb_move_done = 0;
+	tb_all_done = 0;
+	tb_write_done = 0;
+	tb_read_done = 0;
+	tb_calculation_done = 0;
+	tb_shift_done = 0;
+	tb_load_done = 0;
+	tb_read_data_done = 0;
+	tb_h_done = 0;
+	tb_v_done = 0;
+	  
+	@(negedge tb_clk);
+	tb_n_rst = 1;	// GO TO IDLE
+	  
+	@(negedge tb_clk);
+	tb_n_rst = 0;	
 	
+	@(negedge tb_clk);
+	#100
+	tb_start = 1;	// GO TO LOAD PARAM
+	@(negedge tb_clk);
+	#100
+	tb_start = 0;	
+	  
+	@(negedge tb_clk);
+	#100
+	tb_load_done = 1;	// GO TO R_PIXEL1
+	@(negedge tb_clk);
+	#100
+	tb_load_done = 0;
+	  
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 1;	// GO TO L_PIXEL1
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 0;
+	  
+	  
+	@(negedge tb_clk);
+	#100
+	tb_load_done = 1;	// GO TO R_PIXEL2
+	@(negedge tb_clk);
+	#100
+	tb_load_done = 0;
+	  
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 1;	// GO TO L_PIXEL2
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 0;
+	  
+	@(negedge tb_clk);
+	#100
+	tb_load_done = 1;	// GO TO R_PIXEL3
+	@(negedge tb_clk);
+	#100
+	tb_load_done = 0;
+	  
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 1;	// GO TO L_PIXEL3
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 0;
+	  
+	  
+	  @(negedge tb_clk);
+	#100
+	tb_load_done = 1;	// GO TO R_PIXEL4
+	@(negedge tb_clk);
+	#100
+	tb_load_done = 0;
+	  
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 1;	// GO TO L_PIXEL4
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 0;
+	  
+	  
+	  @(negedge tb_clk);
+	#100
+	tb_load_done = 1;	// GO TO R_PIXEL5
+	@(negedge tb_clk);
+	#100
+	tb_load_done = 0;
+	  
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 1;	// GO TO L_PIXEL5
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 0;
+	  
+	  
+	  @(negedge tb_clk);
+	#100
+	tb_load_done = 1;	// GO TO R_PIXEL6
+	@(negedge tb_clk);
+	#100
+	tb_load_done = 0;
+	  
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 1;	// GO TO L_PIXEL6
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 0;
+	  
+	  
+	  @(negedge tb_clk);
+	#100
+	tb_load_done = 1;	// GO TO R_PIXEL7
+	@(negedge tb_clk);
+	#100
+	tb_load_done = 0;
+	  
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 1;	// GO TO L_PIXEL7
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 0;
+	  
+	  
+	  @(negedge tb_clk);
+	#100
+	tb_load_done = 1;	// GO TO R_PIXEL8
+	@(negedge tb_clk);
+	#100
+	tb_load_done = 0;
+	  
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 1;	// GO TO L_PIXEL8
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 0;
+	  
+	  
+	  @(negedge tb_clk);
+	#100
+	tb_load_done = 1;	// GO TO R_PIXEL9
+	@(negedge tb_clk);
+	#100
+	tb_load_done = 0;
+	  
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 1;	// GO TO L_PIXEL9
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 0;
 	
+
+	
+/*	  
 	tb_start = 1;
   	tb_move_done = 0;
   	tb_all_done = 0;
@@ -116,6 +276,7 @@ end
  	expected_tb_start_shift = 0;
   	expected_tb_start_read = 1;
    	expected_tb_start_calculation = 0; 
+	*/
 
 /*
 	#100
@@ -125,6 +286,7 @@ end
 		  $error("Incorrect start read value for test case %d!", testcase);
 	  //#10 */
 
+	  /*
 	#100
 
 	tb_n_rst = 1;
@@ -208,6 +370,7 @@ end
  	expected_tb_start_shift = 0;
   	expected_tb_start_read = 1;
    	expected_tb_start_calculation = 0; 
+	*/
 
   end
 
