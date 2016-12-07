@@ -20,10 +20,11 @@ module move_control(
 	output reg load_done //adding to notify controller that the initial load is done
 	
 );
-   reg 		    next_move_done, next_load_done;
-   reg [1:0] 	    count9, next_count9;
+   reg 		    next_move_done, next_load_done, next_9_done, next_i_done, next_w_done;
+   reg		    n_done, i_done, w_done;
+   reg [3:0] 	    count9, next_count9;
  	    
-   reg [3:0] 	    count, next_count;
+   reg [1:0] 	    count, next_count;
     
    reg [11:0]	    rx, ry, wx, wy;
    reg [7:0] 	   next_addr_r, next_addr_w;
@@ -46,7 +47,11 @@ always_ff @ (negedge n_reset, posedge clk)
 	     move_done <= 0;
    	     load_done <= 0;
 	     count <= 0;
-	     count9 <= 0;	     
+	     count9 <= 0;
+	     n_done <= 0;
+	     i_done <= 0;
+	     w_done <= 0;	     
+	     
 	     	     
 	  end
 	else
@@ -62,7 +67,10 @@ always_ff @ (negedge n_reset, posedge clk)
 	     move_done <= next_move_done;
 	     load_done <= next_load_done;
 	     count <= next_count;
-	     count9 <= next_count9;	     
+	     count9 <= next_count9;
+	     n_done <= next_9_done;
+	     i_done <= next_i_done;
+	     w_done <= next_w_done;	     
 	     
 	  end
 	end
@@ -87,12 +95,15 @@ always_comb
 		   next_direction = 2'b01;
 		   next_load_done = 1;
 		   next_count = 0;
-		   next_count9 = 0;		   
+		   next_count9 = 0;
+		   next_9_done = 0;
+		   next_i_done = 0;
+		   next_w_done = 0;		   
 		   
 		end 
 	   else if (start_move == 1 && !move_done && !all_done)
 		begin
-		next_move_done = 0;	   
+		//next_move_done = 0;	   
 // direction
 		if (wy == (width - 2) && direction == 2'b11)
 			begin
@@ -102,7 +113,7 @@ always_comb
 			begin
 			   next_direction = 2'b11;
 			end
-		else if (wx == (length - 3) && direction == 2'b01)
+		else if (wx == (length - 1) && direction == 2'b01)
 			begin
 			   next_direction = 2'b11;
 			end
@@ -110,41 +121,61 @@ always_comb
 		else if (wx == 1 && direction == 2'b11)
 			begin
 			   next_direction = 2'b01;
+			   next_wx = 2;
+			   
 			end
-		else if (wx == (length - 2) && direction == 2'b11)
+		else if (wx == (length) && direction == 2'b11)
 			begin
 			   next_direction = 2'b10;
+			   next_wx = length - 1;
+			   
 			end
 		end // if (start_move == 1 && !move_done)
-	   else if (move_done)
-		begin
-	     		next_move_done = 0;
-	  	end
 
-	   else if (start_write && !move_done && !all_done)
+	   else if (start_write && !w_done && !all_done)
 	 	begin
 // write address
 		if (direction == 2'b01) //move(right, left, up)
 			begin			   
 			   next_addr_w = addr_w + 1;
 			   next_wx = wx + 1;
+			   next_w_done = 1;		      
 			end
 		else if (direction == 2'b10)
 			begin
 			   next_addr_w = addr_w - 1;
 			   next_wx = wx - 1;
+			   next_w_done = 1;
 			end
 		else if (direction == 2'b11)
 			begin
 			   next_addr_w = addr_w + length;
 			   next_wy = wy + 1'b1;
+			   if (wx == (length - 1))
+			     begin
+				next_wx = length;
+			     end
+			   else if (wx == 2)
+			     begin
+				next_wx = 1;
+			     end
+							   
+			   next_w_done = 1;
 			end
 		end			
-	   else if (start_i_read && !move_done && !all_done)
+	   else if (start_i_read && !i_done && !all_done)
 		begin
 //normal read address
-		if (direction == 2'b01) //move(right, left, up)
-		  begin
+		if (direction == 2'b01) //move right
+		  begin // reposition read address
+//		     if (rx == 3)
+//		       begin
+//			  next_addr_r = addr_r + 1 - length - length;
+//		       end
+//		     else
+//		       begin
+//			  next_addr_r = addr_r + 1 - length - length;
+//		       end
 		     next_rx = rx + 1;
 		     if (count == 0)
 		       begin						   
@@ -158,10 +189,14 @@ always_comb
 		       begin						   
 			  next_addr_r = addr_r + length;
 		       end
+		     else if (count == 3)
+		       begin
+			  next_addr_r = addr_r - length - length;
+		       end
 		     next_count = count + 1'b1;
-		     next_addr_r = addr_r + 1 - length - length;		     
+		     next_i_done = 1;
 		  end
-		else if (direction == 2'b10)
+		else if (direction == 2'b10) //move left
 		  begin
 		     next_rx = rx - 1;
 		     if (count == 0)
@@ -176,15 +211,26 @@ always_comb
 		       begin						   
 			  next_addr_r = addr_r + length;
 		       end
-		     next_count = count + 1'b1;	
-		     next_addr_r = addr_r - 1 - length - length;	     
+		     else if (count == 3)
+		       begin
+			  next_addr_r = addr_r - length - length;
+		       end
+		     next_count = count + 1'b1;
+		     next_i_done = 1;
 		  end // if (direction == 2'b10)			   
 		else if (direction == 2'b11)
 		  begin
 		     next_ry = ry + 1'b1;		     
 		     if (count == 0)
-		       begin						   
-			  next_addr_r = addr_r + length + length + length;
+		       begin
+			  if (wx == 2)
+			    begin
+			       next_addr_r = addr_r + length + length + length;
+			    end
+			  else if (wx == (length - 1))
+			    begin
+			       next_addr_r = addr_r + length + length + length - 2;
+			    end			       
 		       end
 		     else if (count == 1)
 		       begin						   
@@ -194,28 +240,36 @@ always_comb
 		       begin						   
 			  next_addr_r = addr_r + 1;
 		       end
-		     next_count = count + 1'b1;	
-		     if (rx == 1)
+
+		     else if (count == 3)
 		       begin
-			  next_addr_r = addr_r + 1 - length - length;
-		       end
-		     else if (rx == (length - 2))
-		       begin
-			  next_addr_r = addr_r - 1 - length - length;
-		       end		     			 
-		  end
+			  if (wx == 2)
+			    begin
+			       next_addr_r = addr_r - length - length;
+			    end
+			  else if (wx == (length - 1))
+			    begin
+			       next_addr_r = addr_r - 2 - length - length;
+			    end
+		       end // if (count == 3)
+		     next_count = count + 1'b1;
+		     next_i_done = 1; 	     			 
+		  end // if (direction == 2'b11)
+
+		   
+		   
 		  if (count == 3)
 		    begin
 		       next_count = 0;
 		    end		   
 		end
-	   else if (start_9_read && !move_done && !all_done)
+	   else if (start_9_read && !n_done && !all_done)
 		begin
 // first 9 address read
 		   if (count9 == 0)
 		     begin
-			next_addr_r = addr_r + 1;
-		     end
+			next_addr_r = addr_r;
+		     end		   
 		   else if (count9 == 1)
 		     begin
 			next_addr_r = addr_r + 1;
@@ -247,14 +301,32 @@ always_comb
 		   else if (count9 == 8)
 		     begin
 			next_addr_r = addr_r + 1;
+			next_rx = 3;
+			next_ry = 3;
 		     end
 		   next_count9 = count9 + 1'b1;
-		   next_addr_r = addr_r + 1 - length - length;
-		   next_rx = 3;
-		   next_ry = 3;
-		   
+		   next_9_done = 1;
+		   if (count9 == 9)
+		     begin
+			next_addr_r = addr_r - length - length;
+		     end   
 		end // if (start_9_read)
-
+	   else if (n_done == 1 && start_9_read == 1)
+	     begin
+		next_9_done = 0;
+	     end
+	   else if (move_done == 1 && start_move == 1)
+	     begin
+	     	next_move_done = 0;
+	     end
+	   else if (w_done == 1 && start_write == 1)
+	     begin
+	     	next_w_done = 0;
+	     end
+	   else if (i_done == 1 && start_i_read == 1)
+	     begin
+	     	next_i_done = 0;
+	     end	   
 	end
   
 endmodule
