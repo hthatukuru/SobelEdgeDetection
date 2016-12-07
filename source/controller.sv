@@ -1,12 +1,10 @@
 module controller (
-
-input wire clk, n_rst, start, move_done, all_done, write_done, read_done, shift_done, calculation_done, load_done, read_data_done, h_done, v_done
-output reg start_write, start_move, start_shift, start_read, start_calculation, load_initial, start_i_read, start_t_grad
-
+input wire clk, n_rst, start, move_done, all_done, write_done, read_done, shift_done, calculation_done, load_done, read_data_done, h_done, v_done,
+output reg start_write, start_move, start_shift, start_read, start_calculation, load_initial, start_i_read, start_t_grad, start_9_read
 );
 
 
-    typedef enum bit [5:0] {IDLE, LOAD_PARAM, R_PIXEL1, R_PIXEL2, R_PIXEL3, R_PIXEL4,R_PIXEL5,R_PIXEL6, R_PIXEL7, R_PIXEL8, R_PIXEL9, L_PIXEL1, L_PIXEL2, L_PIXEL3, L_PIXEL4, L_PIXEL5, L_PIXEL6, L_PIXEL7, L_PIXEL8, L_PIXEL9, GRADIENT, T_GRADIENT, CHECK_EDGE, WRITE, SHIFT_P1, SHIFT_P2, SHIFT_P3, CHECK_PIXEL, READ_P1, READ_P2, READ_P3, IMAGE_DONE} stateType;	//SHIFT only needs 1 state 
+typedef enum bit [5:0] {IDLE, LOAD_PARAM, R_PIXEL1, R_PIXEL2, R_PIXEL3, R_PIXEL4,R_PIXEL5,R_PIXEL6, R_PIXEL7, R_PIXEL8, R_PIXEL9, L_PIXEL1, L_PIXEL2, L_PIXEL3, L_PIXEL4, L_PIXEL5, L_PIXEL6, L_PIXEL7, L_PIXEL8, L_PIXEL9, GRADIENT, T_GRADIENT, CHECK_EDGE, WRITE, SHIFT_P1 , CHECK_PIXEL, READ_P1, READ_P2, READ_P3, LOAD_P1, LOAD_P2, LOAD_P3, IMAGE_DONE} stateType;	//SHIFT only needs 1 state 
 stateType state;
 stateType next_state;
 
@@ -40,8 +38,7 @@ begin : NEXT_STATE_LOGIC
     begin
         if (start == 1)
             next_state = LOAD_PARAM;
-        else if (all_done == 1)
-	    next_state = IMAGE_DONE;
+        
 	else
             next_state = IDLE;
     end
@@ -371,8 +368,9 @@ begin
         start_calculation = 0;
 	load_initial = 0;
 	start_i_read = 0;
-	read_data_done = 0;
+	//read_data_done = 0;
 	start_t_grad = 0;
+	start_9_read = 0;
     end
       
     LOAD_PARAM: 
@@ -384,7 +382,7 @@ begin
         start_calculation = 0;
 	load_initial = 1;
 	start_i_read = 0;
-	read_data_done = 0;
+	//read_data_done = 0;
     end
 	
     R_PIXEL1:
@@ -394,8 +392,9 @@ begin
         start_shift = 0; 
         start_read = 0; 
         start_calculation = 0;
-	start_i_read = 1;
+	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 1;
         end
       
      L_PIXEL1:
@@ -407,6 +406,7 @@ begin
         start_calculation = 0;
 	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 0;
         end
 
 R_PIXEL2:
@@ -416,8 +416,9 @@ R_PIXEL2:
         start_shift = 0; 
         start_read = 0; 
         start_calculation = 0;
-	start_i_read = 1;
+	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 1;
         end
       
      L_PIXEL2:
@@ -429,6 +430,7 @@ R_PIXEL2:
         start_calculation = 0;
 	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 0;
         end
 
 R_PIXEL3:
@@ -438,8 +440,9 @@ R_PIXEL3:
         start_shift = 0; 
         start_read = 0; 
         start_calculation = 0;
-	start_i_read = 1;
+	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 1;
         end
       
      L_PIXEL3:
@@ -451,6 +454,7 @@ R_PIXEL3:
         start_calculation = 0;
 	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 0;
         end
 
 R_PIXEL4:
@@ -460,8 +464,9 @@ R_PIXEL4:
         start_shift = 0; 
         start_read = 0; 
         start_calculation = 0;
-	start_i_read = 1;
+	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 1;
         end
       
      L_PIXEL4:
@@ -473,6 +478,7 @@ R_PIXEL4:
         start_calculation = 0;
 	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 0;
         end
 
 R_PIXEL5:
@@ -482,8 +488,9 @@ R_PIXEL5:
         start_shift = 0; 
         start_read = 0; 
         start_calculation = 0;
-	start_i_read = 1;
+	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 1;
         end
       
      L_PIXEL5:
@@ -495,6 +502,7 @@ R_PIXEL5:
         start_calculation = 0;
 	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 0;
         end
 
 R_PIXEL6:
@@ -504,8 +512,9 @@ R_PIXEL6:
         start_shift = 0; 
         start_read = 0; 
         start_calculation = 0;
-	start_i_read = 1;
+	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 1;
         end
       
      L_PIXEL6:
@@ -517,6 +526,7 @@ R_PIXEL6:
         start_calculation = 0;
 	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 0;
         end
 
 
@@ -527,8 +537,9 @@ R_PIXEL7:
         start_shift = 0; 
         start_read = 0; 
         start_calculation = 0;
-	start_i_read = 1;
+	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 1;
         end
       
      L_PIXEL7:
@@ -540,6 +551,7 @@ R_PIXEL7:
         start_calculation = 0;
 	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 0;
         end
 
 R_PIXEL8:
@@ -549,8 +561,9 @@ R_PIXEL8:
         start_shift = 0; 
         start_read = 0; 
         start_calculation = 0;
-	start_i_read = 1;
+	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 1;
         end
       
      L_PIXEL8:
@@ -562,6 +575,7 @@ R_PIXEL8:
         start_calculation = 0;
 	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 0;
         end
 
 R_PIXEL9:
@@ -571,8 +585,9 @@ R_PIXEL9:
         start_shift = 0; 
         start_read = 0; 
         start_calculation = 0;
-	start_i_read = 1;
+	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 1;
         end
       
      L_PIXEL9:
@@ -584,6 +599,7 @@ R_PIXEL9:
         start_calculation = 0;
 	start_i_read = 0;
 	load_initial = 0;
+	start_9_read = 0;
         end
       
      
