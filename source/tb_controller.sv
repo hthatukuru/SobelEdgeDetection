@@ -110,10 +110,10 @@ end
 	  
 	@(negedge tb_clk);
 	#100
-	tb_load_done = 1;	// GO TO R_PIXEL2
+	tb_read_done = 1;	// GO TO R_PIXEL2
 	@(negedge tb_clk);
 	#100
-	tb_load_done = 0;
+	tb_read_done = 0;
 	  
 	@(negedge tb_clk);
 	#100
@@ -124,10 +124,10 @@ end
 	  
 	@(negedge tb_clk);
 	#100
-	tb_load_done = 1;	// GO TO R_PIXEL3
+	tb_read_done = 1;	// GO TO R_PIXEL3
 	@(negedge tb_clk);
 	#100
-	tb_load_done = 0;
+	tb_read_done = 0;
 	  
 	@(negedge tb_clk);
 	#100
@@ -139,10 +139,10 @@ end
 	  
 	  @(negedge tb_clk);
 	#100
-	tb_load_done = 1;	// GO TO R_PIXEL4
+	tb_read_done = 1;	// GO TO R_PIXEL4
 	@(negedge tb_clk);
 	#100
-	tb_load_done = 0;
+	tb_read_done = 0;
 	  
 	@(negedge tb_clk);
 	#100
@@ -154,10 +154,10 @@ end
 	  
 	  @(negedge tb_clk);
 	#100
-	tb_load_done = 1;	// GO TO R_PIXEL5
+	tb_read_done = 1;	// GO TO R_PIXEL5
 	@(negedge tb_clk);
 	#100
-	tb_load_done = 0;
+	tb_read_done = 0;
 	  
 	@(negedge tb_clk);
 	#100
@@ -169,10 +169,10 @@ end
 	  
 	  @(negedge tb_clk);
 	#100
-	tb_load_done = 1;	// GO TO R_PIXEL6
+	tb_read_done = 1;	// GO TO R_PIXEL6
 	@(negedge tb_clk);
 	#100
-	tb_load_done = 0;
+	tb_read_done = 0;
 	  
 	@(negedge tb_clk);
 	#100
@@ -184,10 +184,10 @@ end
 	  
 	  @(negedge tb_clk);
 	#100
-	tb_load_done = 1;	// GO TO R_PIXEL7
+	tb_read_done = 1;	// GO TO R_PIXEL7
 	@(negedge tb_clk);
 	#100
-	tb_load_done = 0;
+	tb_read_done = 0;
 	  
 	@(negedge tb_clk);
 	#100
@@ -199,10 +199,10 @@ end
 	  
 	  @(negedge tb_clk);
 	#100
-	tb_load_done = 1;	// GO TO R_PIXEL8
+	tb_read_done = 1;	// GO TO R_PIXEL8
 	@(negedge tb_clk);
 	#100
-	tb_load_done = 0;
+	tb_read_done = 0;
 	  
 	@(negedge tb_clk);
 	#100
@@ -214,10 +214,10 @@ end
 	  
 	  @(negedge tb_clk);
 	#100
-	tb_load_done = 1;	// GO TO R_PIXEL9
+	tb_read_done = 1;	// GO TO R_PIXEL9
 	@(negedge tb_clk);
 	#100
-	tb_load_done = 0;
+	tb_read_done = 0;
 	  
 	@(negedge tb_clk);
 	#100
