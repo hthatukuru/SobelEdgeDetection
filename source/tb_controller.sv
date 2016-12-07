@@ -81,10 +81,10 @@ end
 	tb_v_done = 0;
 	  
 	@(negedge tb_clk);
-	tb_n_rst = 1;	// GO TO IDLE
+	tb_n_rst = 0;	// GO TO IDLE
 	  
 	@(negedge tb_clk);
-	tb_n_rst = 0;	
+	tb_n_rst = 1;	
 	
 	@(negedge tb_clk);
 	#100
