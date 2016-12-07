@@ -82,13 +82,55 @@ end
 	  
 	@(negedge tb_clk);
 	tb_n_rst = 0;	// GO TO IDLE
+	
+	#100
+	
+	expected_tb_start_write = 0;
+  	expected_tb_start_move = 0;
+ 	expected_tb_start_shift = 0;
+  	expected_tb_start_read = 0;
+  	expected_tb_start_calculation = 0; 
+  	expected_tb_load_initial = 0;
+  	expected_tb_start_i_read = 0;
+  	expected_tb_start_t_grad = 0;
+  	expected_tb_start_9_read = 0;
+	
+	#100
+	
+	assert (expected_tb_start_read == tb_start_read)
+		  $info("Correct start read value for test case %d!", testcase);
+	  else
+		  $error("Incorrect start read value for test case %d!", testcase);
+	
+	testcase++;
 	  
 	@(negedge tb_clk);
 	tb_n_rst = 1;	
 	
 	@(negedge tb_clk);
 	#100
+
 	tb_start = 1;	// GO TO LOAD PARAM
+	
+	#100
+
+	expected_tb_start_write = 0;
+  	expected_tb_start_move = 0;
+ 	expected_tb_start_shift = 0;
+  	expected_tb_start_read = 0;
+  	expected_tb_start_calculation = 0; 
+  	expected_tb_load_initial = 1;
+  	expected_tb_start_i_read = 0;
+  	expected_tb_start_t_grad = 0;
+  	expected_tb_start_9_read = 0;
+	
+
+	assert (expected_tb_load_initial == tb_load_initial)
+		  $info("Correct start read value for test case %d!", testcase);
+	  else
+		  $error("Incorrect start read value for test case %d!", testcase);
+
+	testcase++;
 	@(negedge tb_clk);
 	#100
 	tb_start = 0;	
@@ -98,6 +140,23 @@ end
 	tb_load_done = 1;	// GO TO R_PIXEL1
 	@(negedge tb_clk);
 	#100
+
+	expected_tb_start_write = 0;
+  	expected_tb_start_move = 0;
+ 	expected_tb_start_shift = 0;
+  	expected_tb_start_read = 0;
+  	expected_tb_start_calculation = 0; 
+  	expected_tb_load_initial = 0;
+  	expected_tb_start_i_read = 0;
+  	expected_tb_start_t_grad = 0;
+  	expected_tb_start_9_read = 1;
+	
+
+	assert (expected_tb_start_9_read == tb_start_9_read)
+		  $info("Correct start read value for test case %d!", testcase);
+	  else
+		  $error("Incorrect start read value for test case %d!", testcase);
+	testcase++;
 	tb_load_done = 0;
 	  
 	@(negedge tb_clk);
@@ -105,6 +164,23 @@ end
 	tb_read_data_done = 1;	// GO TO L_PIXEL1
 	@(negedge tb_clk);
 	#100
+	expected_tb_start_write = 0;
+  	expected_tb_start_move = 0;
+ 	expected_tb_start_shift = 0;
+  	expected_tb_start_read = 1;
+  	expected_tb_start_calculation = 0; 
+  	expected_tb_load_initial = 0;
+  	expected_tb_start_i_read = 0;
+  	expected_tb_start_t_grad = 0;
+  	expected_tb_start_9_read = 0;
+	
+
+	assert (expected_tb_start_read == tb_start_read)
+		  $info("Correct start read value for test case %d!", testcase);
+	  else
+		  $error("Incorrect start read value for test case %d!", testcase);
+	testcase++;
+	
 	tb_read_data_done = 0;
 	  
 	  
@@ -226,151 +302,267 @@ end
 	#100
 	tb_read_data_done = 0;
 	
-
-	
-/*	  
-	tb_start = 1;
-  	tb_move_done = 0;
-  	tb_all_done = 0;
-  	tb_write_done = 0;
-  	tb_read_done = 1;
-  	tb_calculation_done = 1;
-  	tb_shift_done = 0;
-	tb_n_rst = 0;
-	expected_tb_start_write = 0;
-  	expected_tb_start_move = 0;
- 	expected_tb_start_shift = 0;
-  	expected_tb_start_read = 0;
-   	expected_tb_start_calculation = 0; 
-	
 	@(negedge tb_clk);
-	tb_n_rst = 0;
-	tb_start = 1;
-  	tb_move_done = 0;
-  	tb_all_done = 0;
-  	tb_write_done = 0;
-  	tb_read_done = 1;
-  	tb_calculation_done = 1;
-  	tb_shift_done = 0;
-
-	expected_tb_start_write = 0;
-  	expected_tb_start_move = 0;
- 	expected_tb_start_shift = 0;
-  	expected_tb_start_read = 0;
-   	expected_tb_start_calculation = 0; 
-
-	#84
-	
-	@(negedge tb_clk);
-	tb_n_rst = 1;
-	tb_start = 1;
-  	tb_move_done = 0;
-  	tb_all_done = 0;
-  	tb_write_done = 0;
-  	tb_read_done = 1;
-  	tb_calculation_done = 1;
-  	tb_shift_done = 0;
-
-	expected_tb_start_write = 0;
-  	expected_tb_start_move = 0;
- 	expected_tb_start_shift = 0;
-  	expected_tb_start_read = 1;
-   	expected_tb_start_calculation = 0; 
-	*/
-
-/*
 	#100
- 	  assert (expected_tb_start_read == tb_start_read)
+	tb_read_done = 1;	// GO TO GRADIENT GRADIENT
+	@(negedge tb_clk);
+	#100
+
+	expected_tb_start_write = 0;
+  	expected_tb_start_move = 0;
+ 	expected_tb_start_shift = 0;
+  	expected_tb_start_read = 0;
+  	expected_tb_start_calculation = 1; 
+  	expected_tb_load_initial = 0;
+  	expected_tb_start_i_read = 0;
+  	expected_tb_start_t_grad = 0;
+  	expected_tb_start_9_read = 0;
+	
+	
+	assert (expected_tb_start_calculation == tb_start_calculation)
 		  $info("Correct start read value for test case %d!", testcase);
 	  else
 		  $error("Incorrect start read value for test case %d!", testcase);
-	  //#10 */
-
-	  /*
+	testcase++;
+	
+	tb_read_done = 0;
+	
+	@(negedge tb_clk);
+	#100
+	tb_h_done = 1;	// GO TO T_GRADIENT
+	tb_v_done = 1;
+	@(negedge tb_clk);
 	#100
 
-	tb_n_rst = 1;
-	tb_start = 0;
-  	tb_move_done = 0;
-  	tb_all_done = 0;
-  	tb_write_done = 0;
-  	tb_read_done = 1;
-  	tb_calculation_done = 1;
-  	tb_shift_done = 0;
-
 	expected_tb_start_write = 0;
   	expected_tb_start_move = 0;
  	expected_tb_start_shift = 0;
-  	expected_tb_start_read = 1;
-   	expected_tb_start_calculation = 0;
+  	expected_tb_start_read = 0;
+  	expected_tb_start_calculation = 0; 
+  	expected_tb_load_initial = 0;
+  	expected_tb_start_i_read = 0;
+  	expected_tb_start_t_grad = 1;
+  	expected_tb_start_9_read = 0;
+	
 
+	assert (expected_tb_start_t_grad == tb_start_t_grad)
+		  $info("Correct start read value for test case %d!", testcase);
+	  else
+		  $error("Incorrect start read value for test case %d!", testcase);
+
+	testcase++;
+	
+	tb_h_done = 0;	
+	tb_v_done = 0;
+
+	@(negedge tb_clk);
+	#100
+	tb_calculation_done = 1;	// GO TO WRITE
+	@(negedge tb_clk);
 	#100
 
-	tb_n_rst = 1;
-	tb_start = 1;
-  	tb_move_done = 0;
-  	tb_all_done = 0;
-  	tb_write_done = 0;
-  	tb_read_done = 1;
-  	tb_calculation_done = 1;
-  	tb_shift_done = 0;
-
-	expected_tb_start_write = 0;
+	expected_tb_start_write = 1;
   	expected_tb_start_move = 0;
  	expected_tb_start_shift = 0;
-  	expected_tb_start_read = 1;
-   	expected_tb_start_calculation = 1; 
+  	expected_tb_start_read = 0;
+  	expected_tb_start_calculation = 0; 
+  	expected_tb_load_initial = 0;
+  	expected_tb_start_i_read = 0;
+  	expected_tb_start_t_grad = 0;
+  	expected_tb_start_9_read = 0;
+	
 
-	#100 
+	assert (expected_tb_start_write == tb_start_write)
+		  $info("Correct start read value for test case %d!", testcase);
+	  else
+		  $error("Incorrect start read value for test case %d!", testcase);
 
-	tb_n_rst = 1;
-	tb_start = 1;
-  	tb_move_done = 0;
-  	tb_all_done = 0;
-  	tb_write_done = 1;
-  	tb_read_done = 0;
-  	tb_calculation_done = 0;
-  	tb_shift_done = 1;
+	testcase++;
 
-	expected_tb_start_write = 0;
-  	expected_tb_start_move = 0;
- 	expected_tb_start_shift = 0;
-  	expected_tb_start_read = 1;
-   	expected_tb_start_calculation = 0; 
+	tb_calculation_done = 0;
 
-	#100 
-
-	tb_n_rst = 1;
-	tb_start = 1;
-  	tb_move_done = 1;
-  	tb_all_done = 0;
-  	tb_write_done = 0;
-  	tb_read_done = 1;
-  	tb_calculation_done = 0;
-  	tb_shift_done = 0;
-
-	expected_tb_start_write = 0;
-  	expected_tb_start_move = 0;
- 	expected_tb_start_shift = 0;
-  	expected_tb_start_read = 1;
-   	expected_tb_start_calculation = 0; 
-
+	@(negedge tb_clk);
 	#100
-	tb_n_rst = 1;
-	tb_start = 1;
-  	tb_move_done = 1;
-  	tb_all_done = 1;
-  	tb_write_done = 0;
-  	tb_read_done = 1;
-  	tb_calculation_done = 0;
-  	tb_shift_done = 0;
+	tb_write_done = 1;	// GO TO CHECK_PIXEL
+	@(negedge tb_clk);
+	#100
+	expected_tb_start_write = 0;
+  	expected_tb_start_move = 1;
+ 	expected_tb_start_shift = 0;
+  	expected_tb_start_read = 0;
+  	expected_tb_start_calculation = 0; 
+  	expected_tb_load_initial = 0;
+  	expected_tb_start_i_read = 0;
+  	expected_tb_start_t_grad = 0;
+  	expected_tb_start_9_read = 0;
+	
+
+	assert (expected_tb_start_move == tb_start_move)
+		  $info("Correct start read value for test case %d!", testcase);
+	  else
+		  $error("Incorrect start read value for test case %d!", testcase);
+	testcase++;
+	
+	tb_write_done = 0;
+
+	@(negedge tb_clk);
+	#100
+	tb_move_done = 1;	// GO TO SHIFT_P1
+	@(negedge tb_clk);
+	#100
+
+	expected_tb_start_write = 0;
+  	expected_tb_start_move = 0;
+ 	expected_tb_start_shift = 1;
+  	expected_tb_start_read = 0;
+  	expected_tb_start_calculation = 0; 
+  	expected_tb_load_initial = 0;
+  	expected_tb_start_i_read = 0;
+  	expected_tb_start_t_grad = 0;
+  	expected_tb_start_9_read = 0;
+	
+
+	assert (expected_tb_start_shift == tb_start_shift)
+		  $info("Correct start read value for test case %d!", testcase);
+	  else
+		  $error("Incorrect start read value for test case %d!", testcase);
+	testcase++;
+	
+	tb_move_done = 0;
+	
+	@(negedge tb_clk);
+	#100
+	tb_shift_done = 1;	// GO TO READ_P1
+	@(negedge tb_clk);
+	#100
+
+	expected_tb_start_write = 0;
+  	expected_tb_start_move = 0;
+ 	expected_tb_start_shift = 0;
+  	expected_tb_start_read = 0;
+  	expected_tb_start_calculation = 0; 
+  	expected_tb_load_initial = 0;
+  	expected_tb_start_i_read = 1;
+  	expected_tb_start_t_grad = 0;
+  	expected_tb_start_9_read = 0;
+	
+
+	assert (expected_tb_start_i_read == tb_start_i_read)
+		  $info("Correct start read value for test case %d!", testcase);
+	  else
+		  $error("Incorrect start read value for test case %d!", testcase);
+	testcase++;
+	
+	tb_shift_done = 0;
+	
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 1;	// GO TO LOAD_P1
+	@(negedge tb_clk);
+	#100
 
 	expected_tb_start_write = 0;
   	expected_tb_start_move = 0;
  	expected_tb_start_shift = 0;
   	expected_tb_start_read = 1;
-   	expected_tb_start_calculation = 0; 
+  	expected_tb_start_calculation = 0; 
+  	expected_tb_load_initial = 0;
+  	expected_tb_start_i_read = 0;
+  	expected_tb_start_t_grad = 0;
+  	expected_tb_start_9_read = 0;
+	
+
+	assert (expected_tb_start_read == tb_start_read)
+		  $info("Correct start read value for test case %d!", testcase);
+	  else
+		  $error("Incorrect start read value for test case %d!", testcase);
+	testcase++;
+	
+	tb_read_data_done = 0;
+	
+
+	@(negedge tb_clk);
+	#100
+	tb_read_done = 1;	// GO TO READ_P2
+	@(negedge tb_clk);
+	#100
+	tb_read_done = 0;
+	
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 1;	// GO TO LOAD_P2
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 0;
+
+	@(negedge tb_clk);
+	#100
+	tb_read_done = 1;	// GO TO READ_P3
+	@(negedge tb_clk);
+	#100
+	tb_read_done = 0;
+	
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 1;	// GO TO LOAD_P3
+	@(negedge tb_clk);
+	#100
+	tb_read_data_done = 0;
+	
+	/*
+	@(negedge tb_clk);
+	#100
+	tb_all_done = 1;	// GO TO IMAGE_DONE and then IDLE;
+	@(negedge tb_clk);
+	#100
+	expected_tb_start_write = 0;
+  	expected_tb_start_move = 0;
+ 	expected_tb_start_shift = 0;
+  	expected_tb_start_read = 0;
+  	expected_tb_start_calculation = 0; 
+  	expected_tb_load_initial = 0;
+  	expected_tb_start_i_read = 0;
+  	expected_tb_start_t_grad = 0;
+  	expected_tb_start_9_read = 0;
+	
+
+	assert (expected_tb_start_9_read == tb_start_9_read)
+		  $info("Correct start read value for test case %d!", testcase);
+	  else
+		  $error("Incorrect start read value for test case %d!", testcase);
+	tb_all_done = 0;
 	*/
+	
+	
+	@(negedge tb_clk);
+	#100
+	tb_read_done = 1;	// GO TO GRADIENT
+	@(negedge tb_clk);
+	#100
+
+	expected_tb_start_write = 0;
+  	expected_tb_start_move = 0;
+ 	expected_tb_start_shift = 0;
+  	expected_tb_start_read = 0;
+  	expected_tb_start_calculation = 1; 
+  	expected_tb_load_initial = 0;
+  	expected_tb_start_i_read = 0;
+  	expected_tb_start_t_grad = 0;
+  	expected_tb_start_9_read = 0;
+	
+
+	assert (expected_tb_start_calculation == tb_start_calculation)
+		  $info("Correct start read value for test case %d!", testcase);
+	  else
+		  $error("Incorrect start read value for test case %d!", testcase);
+	testcase++;
+	
+	tb_read_done = 0;
+	
+
+	
+
+	
 
   end
 
