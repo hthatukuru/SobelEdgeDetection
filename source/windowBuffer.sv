@@ -97,44 +97,44 @@ module windowBuffer
       
 	if(shift_direc == 2'b00)
 	begin
-		if(nextCount == 0)
+		if(count == 0)
 		begin
 			tempWindowBuffer[6] = data_r;
 		end
-		else if(nextCount == 1)
+		else if(count == 1)
 		begin
 			tempWindowBuffer[7] = data_r;
 		end
-		else if(nextCount == 2)
+		else if(count == 2)
 		begin
 			tempWindowBuffer[8] = data_r;
 		end
-		else if(nextCount == 3)
+		else if(count == 3)
 		begin
 			tempWindowBuffer[3] = data_r;
 		end
-		else if(nextCount == 4)
+		else if(count == 4)
 		begin
 			tempWindowBuffer[4] = data_r;
 		end
-		else if(nextCount == 5)
+		else if(count == 5)
 		begin
 			tempWindowBuffer[5] = data_r;
 		end
-		else if(nextCount == 6)
+		else if(count == 6)
 		begin
 			tempWindowBuffer[0] = data_r;
 		end
-		else if(nextCount == 7)
+		else if(count == 7)
 		begin
 			tempWindowBuffer[1] = data_r;
 		end
-		else if(nextCount == 8)
+		else if(count == 8)
 		begin
 			tempWindowBuffer[2] = data_r;
 		end
 		
-		nextCount++;
+		nextCount = count + 1;
 	end
 	else if(shift_direc == 2'b01)
 	begin
@@ -151,7 +151,7 @@ module windowBuffer
 			tempWindowBuffer[2] = data_r;
 		end
 
-		nextCount = nextCount + 1;
+		nextCount = count + 1;
 	end
 	else if(shift_direc == 2'b10)
 	begin
@@ -168,7 +168,7 @@ module windowBuffer
 			tempWindowBuffer[0] = data_r;
 		end
 
-		nextCount = nextCount + 1;
+		nextCount = count + 1;
 	end
         else if(shift_direc == 2'b11)
 	begin
@@ -185,7 +185,7 @@ module windowBuffer
 			tempWindowBuffer[2] = data_r;
 		end
 
-		nextCount = nextCount + 1;
+		nextCount = count + 1;
 	end
 
 	read_done = 1;
