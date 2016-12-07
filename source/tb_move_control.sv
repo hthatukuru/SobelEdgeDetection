@@ -17,7 +17,8 @@ module tb_move_control
 	reg [7:0]tb_addr_w;
 	reg [1:0]tb_direction;
 	reg tb_all_done;
-	reg tb_move_done;	
+	reg tb_move_done;
+	reg tb_load_done;
   
   integer testcase;
 	reg [7:0] tb_expected_addr_r;
@@ -25,9 +26,10 @@ module tb_move_control
 	reg [1:0] tb_expected_direction;
 	reg tb_expected_all_done;
 	reg tb_expected_move_done;
+	reg tb_expected_load_done;
   
   
-  move_control DUT (.clk(tb_clk), .n_reset(tb_n_reset), .width(tb_width), .length(tb_length), .initial_addr_r(tb_initial_addr_r), .initial_addr_w(tb_initial_addr_w), .start_move(tb_start_move), .load_initial(tb_load_initial), .addr_r(tb_addr_r), .addr_w(tb_addr_w), .direction(tb_direction), .all_done(tb_all_done), .move_done(tb_move_done));
+  move_control DUT (.clk(tb_clk), .n_reset(tb_n_reset), .width(tb_width), .length(tb_length), .initial_addr_r(tb_initial_addr_r), .initial_addr_w(tb_initial_addr_w), .start_move(tb_start_move), .load_initial(tb_load_initial), .addr_r(tb_addr_r), .addr_w(tb_addr_w), .direction(tb_direction), .all_done(tb_all_done), .move_done(tb_move_done), .load_done(tb_load_done));
    
   	always
 	begin
