@@ -14,5 +14,8 @@ Read_Write read_write (.clk(clk), .n_rst(n_rst), .data_r(data_r), .busy(busy), .
 
 
 
+horizontal_gradient horizontal_grad (.windowBuffer(windowBuffer), .start_calculations(start_calculations), .gx(gx) , .h_done(h_done));
+vertical_gradient vertical_grad (.windowBuffer(windowBuffer), .start_calculations(start_calculations), .gx(gy) , .h_done(v_done));
+total_gradient total_grad (.gy(gy), .gx(gx), .start_t_grad(start_t_grad), .g(g));
 
 endmodule
