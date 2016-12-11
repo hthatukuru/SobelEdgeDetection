@@ -11,109 +11,119 @@ module windowBuffer
   input reg start_read,
   input reg [1:0] shift_direc,
   input reg [7:0] data_r,
-  // input reg [7:0] windowBufferIn[0:8],
+  input reg [3:0] count,
+  output reg [3:0] count_o,
   output reg read_done,
   output reg shift_done,
-  output reg [7:0] windowBuffer[0:8]
+  output reg [7:0] windowBufferOut[0:8]
 );
 
-  reg [7:0] tempWindowBuffer[0:8] = '{8'd0,8'd0,8'd0,8'd0,8'd0,8'd0,8'd0,8'd0,8'd0};
+  reg [7:0] windowBuffer[0:8];
+  reg [7:0] windowBufferNext[0:8];
   
-  reg [3:0] count = 0;
+ // reg [3:0] count = 0;
+ // reg [3:0] countNext = 0;
+
   
- /* 
   always_ff @ (negedge n_rst, posedge clk)
 	begin :	resetting
 		if( n_rst == 1'b0 )
 		begin
-			count <= 0;
+			//count <= 0;
+			windowBuffer <= '{8'd0,8'd0,8'd0,8'd0,8'd0,8'd0,8'd0,8'd0,8'd0};
+		end
+		else
+		begin
+			//count <= countNext;
+			windowBuffer <= windowBufferNext;
 		end
 		
 	end
-*/
 
 
   always_comb
   begin
-    // tempWindowBuffer = windowBufferIn;
-    //nextCount = count;
+	//countNext = count;
+	windowBufferNext = windowBuffer;
 	
 
     if(start_shift == 1 && start_read == 0)
     begin
-	
-      if (shift_direc == 2'b00)
+
+      if (shift_direc == 2'b00 && count >= 0)
       begin
 	read_done = 0;
 	shift_done = 0;
+	count_o = 0;
 
       end
       
-      else if(shift_direc == 2'b01)  // shift left
+      else if(shift_direc == 2'b01 && count >= 0)  // shift left
       begin
-        tempWindowBuffer [0] = tempWindowBuffer [1];
-        tempWindowBuffer [3] = tempWindowBuffer [4];
-        tempWindowBuffer [6] = tempWindowBuffer [7];
-        tempWindowBuffer [1] = tempWindowBuffer [2];
-        tempWindowBuffer [4] = tempWindowBuffer [5];
-        tempWindowBuffer [7] = tempWindowBuffer [8];
-        tempWindowBuffer [2] = 0;
-        tempWindowBuffer [5] = 0;
-        tempWindowBuffer [8] = 0;
+        windowBufferNext [0] = windowBuffer [1];
+        windowBufferNext [3] = windowBuffer [4];
+        windowBufferNext [6] = windowBuffer [7];
+        windowBufferNext [1] = windowBuffer [2];
+        windowBufferNext [4] = windowBuffer [5];
+        windowBufferNext [7] = windowBuffer [8];
+        windowBufferNext [2] = 0;
+        windowBufferNext [5] = 0;
+        windowBufferNext [8] = 0;
         
         read_done = 0;
         shift_done = 1;
-	
+	count_o = 0;
       end
 
-      else if(shift_direc == 2'b10) // shift right
+      else if(shift_direc == 2'b10 && count >= 0) // shift right
       begin
-	tempWindowBuffer [2] = tempWindowBuffer [1];
-        tempWindowBuffer [5] = tempWindowBuffer [4];
-        tempWindowBuffer [8] = tempWindowBuffer [7];
-        tempWindowBuffer [1] = tempWindowBuffer [0];
-        tempWindowBuffer [4] = tempWindowBuffer [3];
-        tempWindowBuffer [7] = tempWindowBuffer [6];
-        tempWindowBuffer [6] = 0;
-        tempWindowBuffer [3] = 0;
-        tempWindowBuffer [0] = 0;
-        
+	windowBufferNext [2] = windowBuffer [1];
+        windowBufferNext [5] = windowBuffer [4];
+        windowBufferNext [8] = windowBuffer [7];
+        windowBufferNext [1] = windowBuffer [0];
+        windowBufferNext [4] = windowBuffer [3];
+        windowBufferNext [7] = windowBuffer [6];
+        windowBufferNext [6] = 0;
+        windowBufferNext [3] = 0;
+        windowBufferNext [0] = 0;
+        count_o = 0;
         read_done = 0;
         shift_done = 1;
       end
 
-      else if(shift_direc == 2'b11) // shift down
+      else if(shift_direc == 2'b11 && count >= 0) // shift down
       begin
-        tempWindowBuffer [6] = tempWindowBuffer [3];
-        tempWindowBuffer [7] = tempWindowBuffer [4];
-        tempWindowBuffer [8] = tempWindowBuffer [5];
-        tempWindowBuffer [3] = tempWindowBuffer [0];
-        tempWindowBuffer [4] = tempWindowBuffer [1];
-        tempWindowBuffer [5] = tempWindowBuffer [2];
-        tempWindowBuffer [0] = 0;
-        tempWindowBuffer [1] = 0;
-        tempWindowBuffer [2] = 0;
-        
+        windowBufferNext [6] = windowBuffer [3];
+        windowBufferNext [7] = windowBuffer [4];
+        windowBufferNext [8] = windowBuffer [5];
+        windowBufferNext [3] = windowBuffer [0];
+        windowBufferNext [4] = windowBuffer [1];
+        windowBufferNext [5] = windowBuffer [2];
+        windowBufferNext [0] = 0;
+        windowBufferNext [1] = 0;
+        windowBufferNext [2] = 0;
+        count_o = 0;
         read_done = 0;
         shift_done = 1;
       end
 
 	else
 	begin
-	tempWindowBuffer [6] = 0;
-        tempWindowBuffer [7] = 0;
-        tempWindowBuffer [8] = 0;
-        tempWindowBuffer [3] = 0;
-        tempWindowBuffer [4] = 0;
-        tempWindowBuffer [5] = 0;
-        tempWindowBuffer [0] = 0;
-        tempWindowBuffer [1] = 0;
-        tempWindowBuffer [2] = 0;
+	windowBufferNext [6] = 0;
+        windowBufferNext [7] = 0;
+        windowBufferNext [8] = 0;
+        windowBufferNext [3] = 0;
+        windowBufferNext [4] = 0;
+        windowBufferNext [5] = 0;
+        windowBufferNext [0] = 0;
+        windowBufferNext [1] = 0;
+        windowBufferNext [2] = 0;
 		read_done = 0;
 		shift_done = 0;
+		count_o = 0;
 	end
       
-	count = 0;
+	count_o = 0;
     end
     
     else if(start_read == 1 && start_shift == 0)
@@ -121,167 +131,183 @@ module windowBuffer
         
 	if(shift_direc == 2'b00 )
 	begin
-		
+
 		if(count == 0)
 		begin
-			tempWindowBuffer[6] = data_r;
-			tempWindowBuffer [7] = 0;
-       	 		tempWindowBuffer [8] = 0;
-        		tempWindowBuffer [3] = 0;
-        		tempWindowBuffer [4] = 0;
-			tempWindowBuffer [5] = 0;
-			tempWindowBuffer [0] = 0;
-			tempWindowBuffer [1] = 0;
-			tempWindowBuffer [2] = 0;
-			//nextCount = count + 1;
+			windowBufferNext[6] = data_r;
 			
 		end
 		else if(count == 1)
 		begin
-			tempWindowBuffer[7] = data_r;
+			windowBufferNext[7] = data_r;
 			
 		end
 		else if(count == 2)
 		begin
-			tempWindowBuffer[8] = data_r;
+			windowBufferNext[8] = data_r;
 			
 		end
 		else if(count == 3)
 		begin
-			tempWindowBuffer[3] = data_r;
-			
+			windowBufferNext[3] = data_r;
 		end
 		else if(count == 4)
 		begin
-			tempWindowBuffer[4] = data_r;
+			windowBufferNext[4] = data_r;
 			
 		end
 		else if(count == 5)
 		begin
-			tempWindowBuffer[5] = data_r;
+			windowBufferNext[5] = data_r;
 			
 		end
 		else if(count == 6)
 		begin
-			tempWindowBuffer[0] = data_r;
+			windowBufferNext[0] = data_r;
 			
 		end
 		else if(count == 7)
 		begin
-			tempWindowBuffer[1] = data_r;
-			//nextCount = count + 1;
+			windowBufferNext[1] = data_r;
 		end
 		else if(count == 8)
 		begin
-			tempWindowBuffer[2] = data_r;
+			windowBufferNext[2] = data_r;
 			
 		end
 		
 		else
 		begin
-			tempWindowBuffer [6] = 0;
-			tempWindowBuffer [7] = 0;
-       	 		tempWindowBuffer [8] = 0;
-        		tempWindowBuffer [3] = 0;
-        		tempWindowBuffer [4] = 0;
-			tempWindowBuffer [5] = 0;
-			tempWindowBuffer [0] = 0;
-			tempWindowBuffer [1] = 0;
-			tempWindowBuffer [2] = 0;
+			windowBufferNext [6] = 0;
+			windowBufferNext [7] = 0;
+       	 		windowBufferNext [8] = 0;
+        		windowBufferNext [3] = 0;
+        		windowBufferNext [4] = 0;
+			windowBufferNext [5] = 0;
+			windowBufferNext [0] = 0;
+			windowBufferNext [1] = 0;
+			windowBufferNext [2] = 0;
 		end
 		
-		count++;
-		
+		//countNext = count + 1;
+    count_o = count + 1;
+    /*
+		if(countNext > 8)
+		begin
+			countNext = 0;
+		end
+		*/
 	end
 	else if(shift_direc == 2'b01)
 	begin
 		if(count == 0)
 		begin
-			tempWindowBuffer[8] = data_r;
+			windowBufferNext[8] = data_r;
 		end
 		else if(count == 1)
 		begin
-			tempWindowBuffer[5] = data_r;
+			windowBufferNext[5] = data_r;
 		end
 		else if(count == 2)
 		begin
-			tempWindowBuffer[2] = data_r;
+			windowBufferNext[2] = data_r;
 		end
 		
 		else
 		begin
-			tempWindowBuffer [6] = 0;
-			tempWindowBuffer [7] = 0;
-       	 		tempWindowBuffer [8] = 0;
-        		tempWindowBuffer [3] = 0;
-        		tempWindowBuffer [4] = 0;
-			tempWindowBuffer [5] = 0;
-			tempWindowBuffer [0] = 0;
-			tempWindowBuffer [1] = 0;
-			tempWindowBuffer [2] = 0;
+			windowBufferNext [6] = 0;
+			windowBufferNext [7] = 0;
+       	 		windowBufferNext [8] = 0;
+        		windowBufferNext [3] = 0;
+        		windowBufferNext [4] = 0;
+			windowBufferNext [5] = 0;
+			windowBufferNext [0] = 0;
+			windowBufferNext [1] = 0;
+			windowBufferNext [2] = 0;
 		end
 
 		
-		count++;
+		//countNext = count + 1;
+    count_o = count + 1;
+    /*
+		if(countNext > 2)
+		begin
+			countNext = 0;
+		end
+    */
+    
 	end
 	else if(shift_direc == 2'b10)
 	begin
 		if(count == 0)
 		begin
-			tempWindowBuffer[6] = data_r;
+			windowBufferNext[6] = data_r;
 		end
 		else if(count == 1)
 		begin
-			tempWindowBuffer[3] = data_r;
+			windowBufferNext[3] = data_r;
 		end
 		else if(count == 2)
 		begin
-			tempWindowBuffer[0] = data_r;
+			windowBufferNext[0] = data_r;
 		end
 		else
 		begin
-			tempWindowBuffer [6] = 0;
-			tempWindowBuffer [7] = 0;
-       	 		tempWindowBuffer [8] = 0;
-        		tempWindowBuffer [3] = 0;
-        		tempWindowBuffer [4] = 0;
-			tempWindowBuffer [5] = 0;
-			tempWindowBuffer [0] = 0;
-			tempWindowBuffer [1] = 0;
-			tempWindowBuffer [2] = 0;
+			windowBufferNext [6] = 0;
+			windowBufferNext [7] = 0;
+       	 		windowBufferNext [8] = 0;
+        		windowBufferNext [3] = 0;
+        		windowBufferNext [4] = 0;
+			windowBufferNext [5] = 0;
+			windowBufferNext [0] = 0;
+			windowBufferNext [1] = 0;
+			windowBufferNext [2] = 0;
 		end
 		
 
-		count++;
-	
+		//countNext = count + 1;
+    count_o = count + 1;
+    /*
+		if(countNext > 2)
+		begin
+			countNext = 0;
+		end
+	*/
 	end
         else if(shift_direc == 2'b11)
 	begin
 		if(count == 0)
 		begin
-			tempWindowBuffer[0] = data_r;
+			windowBufferNext[0] = data_r;
 		end
 		else if(count == 1)
 		begin
-			tempWindowBuffer[1] = data_r;
+			windowBufferNext[1] = data_r;
 		end
 		else if(count == 2)
 		begin
-			tempWindowBuffer[2] = data_r;
+			windowBufferNext[2] = data_r;
 		end
 		else
 		begin
-			tempWindowBuffer [6] = 0;
-			tempWindowBuffer [7] = 0;
-       	 		tempWindowBuffer [8] = 0;
-        		tempWindowBuffer [3] = 0;
-        		tempWindowBuffer [4] = 0;
-			tempWindowBuffer [5] = 0;
-			tempWindowBuffer [0] = 0;
-			tempWindowBuffer [1] = 0;
-			tempWindowBuffer [2] = 0;
+			windowBufferNext [6] = 0;
+			windowBufferNext [7] = 0;
+       	 		windowBufferNext [8] = 0;
+        		windowBufferNext [3] = 0;
+        		windowBufferNext [4] = 0;
+			windowBufferNext [5] = 0;
+			windowBufferNext [0] = 0;
+			windowBufferNext [1] = 0;
+			windowBufferNext [2] = 0;
 		end
-		count++;
+		//countNext = count + 1;
+    count_o = count + 1;
+    /*
+		if(countNext > 2)
+		begin
+			countNext = 0;
+		end
+    */
 	end
 
 	read_done = 1;
@@ -291,9 +317,10 @@ module windowBuffer
     begin
 	read_done = 0;
 	shift_done = 0;
+	count_o = 0;
     end
-    windowBuffer = tempWindowBuffer;
-    // windowBufferIn = tempWindowBuffer;
+    windowBufferOut = windowBuffer;
+
   end
-  
+
 endmodule
