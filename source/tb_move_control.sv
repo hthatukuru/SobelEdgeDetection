@@ -57,6 +57,10 @@ module tb_move_control
        tb_initial_addr_r = 100;
        tb_initial_addr_w = 0;
        tb_start_move = 0;
+       tb_start_i_read = 0;
+       tb_start_9_read = 0;
+       tb_start_write = 0;
+       
        tb_load_initial = 1;
        tb_expected_addr_r = 100;
        tb_expected_addr_w = 0;
