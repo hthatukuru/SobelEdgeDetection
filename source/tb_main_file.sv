@@ -24,17 +24,16 @@ module tb_main_file();
 		#( CLK_PERIOD / 2.0 );
 	end
 
-  wire clk;
-  wire n_rst;
-  reg start;
-  reg [11:0] width;
-  reg [11:0] length;
-  reg [7:0] initial_addr_r;
-  reg [7:0] initial_addr_w;
+  reg tb_n_rst;
+  reg tb_start;
+  reg [11:0] tb_width;
+  reg [11:0] tb_length;
+  reg [7:0] tb_initial_addr_r;
+  reg [7:0] tb_initial_addr_w;
   
   integer testcase;
   
-  main_file DUT (.clk(tb_clk), .n_rst(tb_n_rst), .start(tb_start), .width(width), .length(length), .initial_addr_r(initial_addr_r), .initial_addr_w(initial_addr_w));
+  main_file DUT (.clk(tb_clk), .n_rst(tb_n_rst), .start(tb_start), .width(tb_width), .length(tb_length), .initial_addr_r(tb_initial_addr_r), .initial_addr_w(tb_initial_addr_w));
   
   
   initial
@@ -45,7 +44,7 @@ module tb_main_file();
     @( negedge tb_clk );
     @( negedge tb_clk );
 	
-	  tb_n_rst = 1'b0;
+    tb_n_rst = 1'b0;
     tb_start = 1'b1;
     tb_width = 200;
     tb_length = 200;
