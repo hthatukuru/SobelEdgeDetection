@@ -13,10 +13,12 @@ module tb_vertical_gradient ();
   reg tb_start_calculations;
   reg [10:0] tb_expected_gy;
   reg [10:0] tb_gy;
+  reg tb_v_done;
+  reg tb_expected_v_done;
   integer testcase;
   
   
-  vertical_gradient DUT (.windowBuffer(tb_windowBuffer) , .start_calculations(tb_start_calculations), .gy(tb_gy));
+  vertical_gradient DUT (.windowBuffer(tb_windowBuffer) , .start_calculations(tb_start_calculations), .gy(tb_gy), .v_done(tb_v_done));
   
   initial
   begin
@@ -37,8 +39,9 @@ module tb_vertical_gradient ();
 
     tb_start_calculations = 1;
     tb_expected_gy = 0;
+    tb_expected_v_done = 1;
     #10
-    assert (tb_expected_gy == tb_gy)
+    assert (tb_expected_gy == tb_gy && tb_expected_v_done == tb_v_done)
 		  $info("Correct gx value for test case %d!", testcase);
 	  else
 		  $error("Incorrect gx value for test case %d!", testcase);
@@ -58,8 +61,9 @@ module tb_vertical_gradient ();
    
     tb_start_calculations = 1;
     tb_expected_gy = 55;
+    tb_expected_v_done = 1;
     #10
-    assert (tb_expected_gy == tb_gy)
+    assert (tb_expected_gy == tb_gy && tb_expected_v_done == tb_v_done)
 		  $info("Correct gx value for test case %d!", testcase);
 	  else
 		  $error("Incorrect gx value for test case %d!", testcase);
@@ -78,8 +82,9 @@ module tb_vertical_gradient ();
    
     tb_start_calculations = 1;
     tb_expected_gy = 0;
+    tb_expected_v_done = 1;
     #10
-    assert (tb_expected_gy == tb_gy)
+    assert (tb_expected_gy == tb_gy && tb_expected_v_done == tb_v_done)
 		  $info("Correct gx value for test case %d!", testcase);
 	  else
 		  $error("Incorrect gx value for test case %d!", testcase);
@@ -98,8 +103,9 @@ module tb_vertical_gradient ();
    
     tb_start_calculations = 1;
     tb_expected_gy = 5;
+    tb_expected_v_done = 1;
     #10
-    assert (tb_expected_gy == tb_gy)
+    assert (tb_expected_gy == tb_gy && tb_expected_v_done == tb_v_done)
 		  $info("Correct gx value for test case %d!", testcase);
 	  else
 		  $error("Incorrect gx value for test case %d!", testcase);
@@ -119,8 +125,9 @@ module tb_vertical_gradient ();
    
     tb_start_calculations = 1;
     tb_expected_gy = 71;
+    tb_expected_v_done = 1;
     #10
-    assert (tb_expected_gy == tb_gy)
+    assert (tb_expected_gy == tb_gy && tb_expected_v_done == tb_v_done)
 		  $info("Correct gx value for test case %d!", testcase);
 	  else
 		  $error("Incorrect gx value for test case %d!", testcase);
@@ -139,9 +146,10 @@ module tb_vertical_gradient ();
     tb_windowBuffer[8] = 255;
    
     tb_start_calculations = 0;
-    tb_expected_gy = 71;
+    tb_expected_gy = 0;
+    tb_expected_v_done = 0;
     #10
-    assert (tb_expected_gy == tb_gy)
+    assert (tb_expected_gy == tb_gy && tb_expected_v_done == tb_v_done)
 		  $info("Correct gx value for test case %d!", testcase);
 	  else
 		  $error("Incorrect gx value for test case %d!", testcase);
