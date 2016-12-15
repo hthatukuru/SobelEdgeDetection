@@ -6,7 +6,19 @@ module main_file (
 	input reg [11:0] width,
 	input reg [11:0] length,
 	input reg [7:0] initial_addr_r,
-	input reg [7:0] initial_addr_w
+	input reg [7:0] initial_addr_w,
+
+	input reg 	  hresp,
+	input reg 	  hready,
+	input reg [31:0]  hrdata,
+	input wire 	  HRESET,
+	input wire 	  HCLK,
+
+	input reg [31:0]  haddr,
+	input reg 	  hwrite,
+	input reg [2:0]   hsize,
+	input reg 	  hsel,
+	input reg [31:0]  hwdata
 
 );
 
@@ -48,6 +60,9 @@ module main_file (
 	reg [7:0] g;
 	
 	
+ahb_master AM (.hresp(hresp), .hready(hready), .hrdata(hrdata), .HRESET(HRESET), .HCLK(HCLK), .haddr(haddr), .hwrite(hwrite), .hsize(hsize), .hwdata(hwdata), .data_w(data_w), .instruction(instruction), .addr_r(addr_r), .addr_w(addr_w), .data_r(data_r), .busy(busy));
+
+ahb_slave AS (.haddr(haddr), .hwrite(hwrite), .hsize(hsize), .hsel(hsel), .hwdata(hwdata), .HRESET(HRESET), .HCLK(HCLK), .hready(hready), .hreadyout(hreadyout), .hresp(hresp), .hrdata(hrdata), .start(start), .width(width), .length(length), .initial_addr_r(initial_addr_r), .initial_addr_w(initial_addr_w));
 
 windowBuffer window_buffer (.clk(clk), .n_rst(n_rst), .start_shift(start_shift), .start_read(start_read), .shift_direc(direction), .data_r(data_r), .count(count), .count_o(count_o), .read_done(read_done), .shift_done(shift_done), .windowBufferOut(windowBufferOut));
 
