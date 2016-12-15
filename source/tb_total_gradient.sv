@@ -12,13 +12,14 @@ module tb_total_gradient
 
 	reg [10:0] tb_gx;
 	reg [10:0] tb_gy;
+	reg tb_start_t_grad;
 	reg [7:0] tb_g;	
   
-  integer testcase;
+  	integer testcase;
 	reg [7:0] tb_expected_g;
   
   
-  total_gradient DUT (.gx(tb_gx), .gy(tb_gy), .g(tb_g));
+  total_gradient DUT (.gx(tb_gx), .gy(tb_gy), .g(tb_g), .start_t_grad(tb_start_t_grad));
   
   
   initial
@@ -27,8 +28,10 @@ module tb_total_gradient
   //initialization
 	testcase = 0;	
 	tb_gx = 0;
+	tb_start_t_grad = 1;
 	tb_gy = 0;
 	tb_expected_g = 0;
+	
 	#10
  	assert (tb_expected_g == tb_g)
 		$info("Correct g value for test case %d!", testcase);
@@ -49,6 +52,7 @@ module tb_total_gradient
 	testcase = 2;
 	tb_gx = 12;
 	tb_gy = 13;
+	tb_start_t_grad = 1;
 	tb_expected_g = 25;
 	#10
 	assert (tb_expected_g == tb_g)
@@ -60,6 +64,7 @@ module tb_total_gradient
 	testcase = 3;
 	tb_gx = 24;
 	tb_gy = 106;
+	tb_start_t_grad = 1;
 	tb_expected_g = 130;
 	#10
 	assert (tb_expected_g == tb_g)
@@ -71,6 +76,7 @@ module tb_total_gradient
 	testcase = 4;
 	tb_gx = 200;
 	tb_gy = 95;
+	tb_start_t_grad = 1;
 	tb_expected_g = 255;
 	#10
 	assert (tb_expected_g == tb_g)
@@ -82,6 +88,7 @@ module tb_total_gradient
 	testcase = 5;
 	tb_gx = 213;
 	tb_gy = 156;
+	tb_start_t_grad = 1;
 	tb_expected_g = 255;
 	#10
 	assert (tb_expected_g == tb_g)
@@ -93,6 +100,7 @@ module tb_total_gradient
 	testcase = 6;
 	tb_gx = 255;
 	tb_gy = 255;
+	tb_start_t_grad = 1;
 	tb_expected_g = 255;
 	#10
 	assert (tb_expected_g == tb_g)
@@ -106,6 +114,7 @@ module tb_total_gradient
 	testcase = 7;	
 	tb_gx = 0;
 	tb_gy = 0;
+	tb_start_t_grad = 1;
 	tb_expected_g = 0;
 	#10
  	assert (tb_expected_g == tb_g)
@@ -116,6 +125,7 @@ module tb_total_gradient
 	testcase = 8;
 	tb_gx = 55;
 	tb_gy = 555;
+	tb_start_t_grad = 1;
 	tb_expected_g = 255;
 	#10
 	assert (tb_expected_g == tb_g)
@@ -127,6 +137,7 @@ module tb_total_gradient
 	testcase = 9;
 	tb_gx = 0;
 	tb_gy = 0;
+	tb_start_t_grad = 1;
 	tb_expected_g = 0;
 	#10
 	assert (tb_expected_g == tb_g)
@@ -138,6 +149,7 @@ module tb_total_gradient
 	testcase = 10;
 	tb_gx = 5;
 	tb_gy = 405;
+	tb_start_t_grad = 1;
 	tb_expected_g = 255;
 	#10
 	assert (tb_expected_g == tb_g)
@@ -149,6 +161,7 @@ module tb_total_gradient
 	testcase = 11;
 	tb_gx = 71;
 	tb_gy = 317;
+	tb_start_t_grad = 1;
 	tb_expected_g = 255;
 	#10
 	assert (tb_expected_g == tb_g)
@@ -160,7 +173,8 @@ module tb_total_gradient
 	testcase = 12;
 	tb_gx = 71;
 	tb_gy = 317;
-	tb_expected_g = 255;
+	tb_start_t_grad = 0;
+	tb_expected_g = 0;
 	#10
 	assert (tb_expected_g == tb_g)
 		$info("Correct g value for test case %d!", testcase);
