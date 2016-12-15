@@ -3,7 +3,8 @@ module horizontal_gradient(
 //input wire grad_start,	
 	input reg [7:0] windowBuffer[0:8],
 	input reg start_calculations,
-	output wire signed [10:0] gx
+	output reg signed [10:0] gx,
+	output reg h_done
 	
 );
 	
@@ -34,14 +35,31 @@ module horizontal_gradient(
 	begin
 
 		if (start_calculations == 1)	
+		begin
 			abs_gx=((P2-P0)+((P5-P3)<<1)+(P8-P6));	//sobel mask for gradient in horiz. direction 
+			if (abs_gx[10] == 1) // && start_calculations == 1)
+			begin
+				gx = ~abs_gx + 1;
+				h_done = 1;
+			end	
+			else
+			begin
+				gx = abs_gx;
+				h_done = 1;
+			end
+		end
+		
+		else
+		begin
+			gx = 0;
+			h_done = 0;
 
-
+		end
 
 	end
 
-	assign gx = (abs_gx[10]? ~abs_gx+1 : abs_gx);
+
+	//assign gx = (abs_gx[10]? ~abs_gx+1 : abs_gx);
 
 endmodule
-
 
