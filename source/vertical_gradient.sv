@@ -1,44 +1,68 @@
-  module total_gradient (  
-  input signed [10:0] gy,
-  input signed [10:0] gx,
-  input reg start_t_grad,
-  output reg [7:0] g
+module vertical_gradient(
+	
+	input reg [7:0] windowBuffer[0:8],
+	input reg start_calculations,
+	output reg [10:0] gy,
+	output reg v_done
+	
 );
 
-
-//wire signed [10:0] abs_gx,abs_gy;	//it is used to find the absolute value of gx and gy 
-reg [10:0] sum;			//the max value is 255*8. here no sign bit needed. 
-reg [10:0] final_sum;
-
-	//assign sum = (gx+gy);
-//assign g =(|sum[10:8])?8'hff : sum[7:0];
+	reg signed [10:0] abs_gy;
+	wire [7:0] P0;
+	wire [7:0] P1;
+	wire [7:0] P2;
+	wire [7:0] P3;
+	wire [7:0] P4;
+	wire [7:0] P5;
+	wire [7:0] P6;
+	wire [7:0] P7;
+	wire [7:0] P8;
 	
-  
-
 	
-		//assign g = (start_t_grad ? ((sum[10] | sum[9] | sum[8]) ? 8'b11111111 : sum[7:0]) : 0;
-	//assign final_sum = (sum[10] | sum[9] | sum[8]) ? 8'b11111111 : sum[7:0];
+	assign P0 = windowBuffer[0];
+	assign P1 = windowBuffer[1];
+	assign P2 = windowBuffer[2];
+	assign P3 = windowBuffer[3];
+	assign P4 = windowBuffer[4];
+	assign P5 = windowBuffer[5];
+	assign P6 = windowBuffer[6];
+	assign P7 = windowBuffer[7];
+	assign P8 = windowBuffer[8];
+	/*
+	always_comb
+	begin
+		if (start_calculations == 1)
+			abs_gy = ((P0-P6)+((P1-P7)<<1)+(P2-P8)); //sobel mask for gradient in vertical direction 
+	end
 	
-	//assign g = (sum[10] | sum[9] | sum[8]) ? 8'b11111111 : sum[7:0];
+	assign gy = (abs_gy[10]? ~abs_gy+1 : abs_gy);
+	*/
 
 	always_comb
 	begin
-		if (start_t_grad == 1)
+
+		if (start_calculations == 1)	
 		begin
-			sum = (gx+gy);
-			if (sum[10] | sum[9] | sum[8])
-				g = 8'b11111111;
+			abs_gy = ((P0-P6)+((P1-P7)<<1)+(P2-P8)); //sobel mask for gradient in vertical direction 
+			if (abs_gy[10] == 1) // && start_calculations == 1)
+			begin
+				gy = ~abs_gy + 1;
+				v_done = 1;
+			end	
 			else
-				g = sum[7:0];
+			begin
+				gy = abs_gy;
+				v_done = 1;
+			end
 		end
+		
 		else
 		begin
-			g = 0;
+			gy = 0;
+			v_done = 0;
+
 		end
+
 	end
 
-
-	
-	
 endmodule
-  
