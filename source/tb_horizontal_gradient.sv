@@ -13,10 +13,12 @@ module tb_horizontal_gradient ();
   reg tb_start_calculations;
   reg [10:0] tb_expected_gx;
   reg [10:0] tb_gx;
+  reg tb_h_done;
+  reg tb_expected_h_done;
   integer testcase;
   
   
-  horizontal_gradient DUT (.windowBuffer(tb_windowBuffer) , .start_calculations(tb_start_calculations), .gx(tb_gx));
+  horizontal_gradient DUT (.windowBuffer(tb_windowBuffer) , .start_calculations(tb_start_calculations), .gx(tb_gx), .h_done(tb_h_done));
   
   initial
   begin
@@ -37,8 +39,9 @@ module tb_horizontal_gradient ();
 
     tb_start_calculations = 1;
     tb_expected_gx = 0;
-    #10
- 	  assert (tb_expected_gx == tb_gx)
+    tb_expected_h_done = 1;
+    #100
+ 	  assert (tb_expected_gx == tb_gx && tb_expected_h_done == tb_h_done)
 		  $info("Correct gx value for test case %d!", testcase);
 	  else
 		  $error("Incorrect gx value for test case %d!", testcase);
@@ -58,8 +61,9 @@ module tb_horizontal_gradient ();
    
     tb_start_calculations = 1;
     tb_expected_gx = 555;
-    #10
- 	  assert (tb_expected_gx == tb_gx)
+tb_expected_h_done = 1;
+    #100
+ 	  assert (tb_expected_gx == tb_gx && tb_expected_h_done == tb_h_done)
 		  $info("Correct gx value for test case %d!", testcase);
 	  else
 		  $error("Incorrect gx value for test case %d!", testcase);
@@ -81,9 +85,10 @@ module tb_horizontal_gradient ();
 
 	tb_start_calculations = 1;
 	tb_expected_gx = 0;  //update this value here 
+	tb_expected_h_done = 1;
 
-    	#10
- 	  assert (tb_expected_gx == tb_gx)
+    	#100
+ 	  assert (tb_expected_gx == tb_gx && tb_expected_h_done == tb_h_done)
 		  $info("Correct gx value for test case %d!", testcase);
 	  else
 		  $error("Incorrect gx value for test case %d!", testcase);
@@ -104,9 +109,10 @@ module tb_horizontal_gradient ();
 
 	tb_start_calculations = 1;
 	tb_expected_gx = 405;  //update this value here 
+	tb_expected_h_done = 1;
 
-    	#10
- 	  assert (tb_expected_gx == tb_gx)
+    	#100
+ 	  assert (tb_expected_gx == tb_gx && tb_expected_h_done == tb_h_done)
 		  $info("Correct gx value for test case %d!", testcase);
 	  else
 		  $error("Incorrect gx value for test case %d!", testcase);
@@ -128,9 +134,10 @@ module tb_horizontal_gradient ();
 
 	tb_start_calculations = 1;
 	tb_expected_gx = 317;  //update this value here 
+	tb_expected_h_done = 1;
 
-    	#10
- 	  assert (tb_expected_gx == tb_gx)
+    	#100
+ 	  assert (tb_expected_gx == tb_gx && tb_expected_h_done == tb_h_done)
 		  $info("Correct gx value for test case %d!", testcase);
 	  else
 		  $error("Incorrect gx value for test case %d!", testcase);
@@ -149,10 +156,11 @@ module tb_horizontal_gradient ();
     	tb_windowBuffer[8] = 255;
 
 	tb_start_calculations = 0;
-	tb_expected_gx = 317;  //update this value here 
+	tb_expected_gx = 0;  //update this value here 
+	tb_expected_h_done = 0;
 
     	#10
- 	  assert (tb_expected_gx == tb_gx)
+ 	  assert (tb_expected_gx == tb_gx && tb_expected_h_done == tb_h_done)
 		  $info("Correct gx value for test case %d!", testcase);
 	  else
 		  $error("Incorrect gx value for test case %d!", testcase);
