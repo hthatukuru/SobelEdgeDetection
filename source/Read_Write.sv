@@ -24,6 +24,12 @@ always_comb
    if (busy)
      begin
 	instruction = 2'b00;
+	     addr_r = 0;
+	     data_r_o = 0;
+	     read_data_done = 0;
+		addr_w = 0;
+	     data_w_o = 0;
+	     write_done = 0; 
      end
    else 
      begin
@@ -33,6 +39,9 @@ always_comb
 	     addr_r = addr_r_mc;
 	     data_r_o = data_r;
 	     read_data_done = 1;
+		addr_w = 0;
+	     data_w_o = 0;
+	     write_done = 0;
 	  end
 
 
@@ -41,13 +50,25 @@ always_comb
 	     instruction = 2'b10;
 	     addr_w = addr_w_mc;
 	     data_w_o = data_w;
-	     write_done = 1;     
+	     write_done = 1; 
+		addr_r = 0;
+	     data_r_o = 0;
+	     read_data_done = 0;    
 	  end
+
+	else
+		begin
+			instruction = 2'b00;
+			     addr_r = 0;
+			     data_r_o = 0;
+			     read_data_done = 0;
+				addr_w = 0;
+			     data_w_o = 0;
+			     write_done = 0;   
+
+		end
      end	
   end
 	  
-
-
-
 
 endmodule
