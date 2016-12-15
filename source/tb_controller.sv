@@ -79,6 +79,17 @@ end
 	tb_read_data_done = 0;
 	tb_h_done = 0;
 	tb_v_done = 0;
+     tb_start_write = 0;
+     tb_start_move = 0;
+     tb_start_shift = 0;
+     tb_start_read = 0;
+     tb_start_calculation = 0;
+     tb_load_initial = 0;
+     tb_start_i_read = 0;
+     tb_start_t_grad = 0;
+     tb_start_9_read = 0;
+     
+     
 	  
 	@(negedge tb_clk);
 	tb_n_rst = 0;	// GO TO IDLE

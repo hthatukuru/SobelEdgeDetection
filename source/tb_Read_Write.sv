@@ -46,6 +46,14 @@ module tb_Read_Write
 	tb_start_read = 0;
 	tb_busy = 1;
        tb_expected_instruction = 2'b00;
+       tb_data_w_o = 0;
+       tb_addr_w = 0;
+       tb_addr_r = 0;
+       tb_data_r_o = 0; 
+       tb_expected_data_w_o = 0;
+       tb_expected_addr_w = 0;
+       tb_expected_addr_r = 0;
+       tb_expected_data_r_o = 0;       
       
        
        #10
